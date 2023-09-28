@@ -42,7 +42,7 @@ const SideHeaderItem: React.FC<SideHeaderItemProps> = ({
                     active && "bg-[#1a1f25] text-[#8696a0]"
                 )}
             >
-                <Icon className="h-6 w-6 shrink-0" aria-hidden="true" />
+                <Icon className="h-6 w-6 shrink-0" />
                 <span className="sr-only"></span>
             </Link>
         </li>
