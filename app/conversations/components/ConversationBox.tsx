@@ -96,7 +96,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
                         {lastMessageText}
                     </p>
                 </div>
-                <div className="text-[#fff] mt-3 border-b border-[#202c33]" />
+                {/* <div className="text-[#fff] mt-3 border-b border-[#202c33]" /> */}
             </div>
         </div>
     );
