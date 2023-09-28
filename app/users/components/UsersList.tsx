@@ -16,7 +16,12 @@ const UsersList: React.FC<UsersListProps> = ({ users }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
-        
+        let reloadCount: number = 0;
+        reloadCount = reloadCount + 1;
+        if (reloadCount > 1) {
+            setTimeout(() => window.location.reload(), 1000);
+            return;
+        }
     }, []);
 
     return (
