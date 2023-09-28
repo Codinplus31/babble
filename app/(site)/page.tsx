@@ -7,10 +7,10 @@ export default function Home() {
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 <Image
                     src="/favicon.ico"
-                    height="18"
-                    width="18"
+                    height="10"
+                    width="10"
                     alt="Logo"
-                    className="mx-auto w-auto rounded-full"
+                    className="mx-auto w-auto rounded-xl"
                 />
                 <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-[#d1d3d7]">
                     Sign In
