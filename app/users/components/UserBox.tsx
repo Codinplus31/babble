@@ -38,12 +38,13 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
                 <Avatar user={data} />
                 <div className="min-w-0 flex-1">
                     <div className="focus:outline-none">
+                        <span className="absolute inset-0" aria-hidden="true" />
                         <div className="flex justify-between items-center mb-1">
                             <h4 className="text-lg font-normal text-[#d1d3d7]">
                                 {data.name}
                             </h4>
                         </div>
-                        <div className="border-b border-[#202c33] mt-2" />
+                        {/* <div className="border-b border-[#202c33] mt-2" /> */}
                     </div>
                 </div>
             </div>
