@@ -27,8 +27,10 @@ const MultipleAvatar: React.FC<MultipleAvatarProps> = ({ users = [] }) => {
                 >
                     <Image
                         alt="Group Picture"
-                        fill
-                        sizes="(min-width:2560px) 100%"
+                        width="0"
+                        height="0"
+                        sizes="100vw"
+                        className="w-auto h-auto"
                         src={user?.image || avatar}
                     />
                 </div>

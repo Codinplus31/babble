@@ -39,8 +39,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
         if (!pusherKey) {
             return;
         }
-        // router.refresh();
-
+        
         pusherClient.subscribe(pusherKey);
 
         // append new conversation
@@ -85,9 +84,10 @@ const ConversationList: React.FC<ConversationListProps> = ({
             pusherClient.unbind("conversation:new", newHandler);
             pusherClient.unbind("conversation:update", updateHandler);
             pusherClient.unbind("conversation:remove", removeHandler);
+            setTimeout(() => window.location.reload(), 2000);
         };
     }, [pusherKey, router]);
-
+    
     return (
         <>
             <GroupChatModal

@@ -54,7 +54,7 @@ const SideHeader: React.FC<SideHeaderProps> = ({ currentUser }) => {
                     >
                         {routes.map((item) => (
                             <SideHeaderItem
-                                key={item.label}
+                                key={item.href}
                                 href={item.href}
                                 icon={item.icon}
                                 active={item.active}

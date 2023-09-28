@@ -6,7 +6,7 @@ import UserBox from "./UserBox";
 import { AiFillFolderAdd } from "react-icons/ai";
 
 import GroupChatModal from "@/app/components/Modals/GroupChatModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface UsersListProps {
     users: User[];
@@ -14,6 +14,15 @@ interface UsersListProps {
 
 const UsersList: React.FC<UsersListProps> = ({ users }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    useEffect(() => {
+        let reloadCount: number = 0;
+        reloadCount = reloadCount + 1;
+        if (reloadCount > 1) {
+            setTimeout(() => window.location.reload(), 5000);
+            return;
+        }
+    }, []);
 
     return (
         <>

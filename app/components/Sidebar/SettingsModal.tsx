@@ -89,9 +89,10 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                                 </label>
                                 <div className="mt-2 flex items-center gap-x-3">
                                     <Image
-                                        width="48"
-                                        height="48"
-                                        className="rounded-full"
+                                        width="0"
+                                        height="0"
+                                        sizes="100vw"
+                                        className="w-auto h-auto rounded-full"
                                         alt="Profile Picture"
                                         src={
                                             image ||

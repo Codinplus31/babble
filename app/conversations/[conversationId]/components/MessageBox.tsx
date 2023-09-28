@@ -60,10 +60,11 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
                         <Image
                             onClick={() => setImgModal(true)}
                             alt="Image"
-                            height="288"
-                            width="288"
+                            width="0"
+                            height="0"
+                            sizes="100vw"
                             src={data.image}
-                            className="object-cover cursor-pointer hover:scale-110 transition translate"
+                            className="w-auto h-auto object-cover cursor-pointer hover:scale-110 transition translate"
                         />
                     ) : (
                         <div className="text-xl">{data.body}</div>
