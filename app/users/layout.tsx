@@ -2,8 +2,6 @@ import getUsers from "../actions/getUsers";
 import Sidebar from "../components/Sidebar/Sidebar";
 import UsersList from "./components/UsersList";
 
-export const revalidate = 0;
-
 const UsersLayout = async ({ children }: { children: React.ReactNode }) => {
     const users = await getUsers();
 

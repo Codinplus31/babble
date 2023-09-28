@@ -101,7 +101,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
                 )}
             >
                 <div className="px-5">
-                    <div className="flex justify-between py-8">
+                    <div className="flex justify-between py-6">
                         <div className="text-3xl justify-center items-center font-extrabold text-[#578EFF]">
                             Babble
                         </div>

@@ -14,6 +14,7 @@ interface UsersListProps {
 
 const UsersList: React.FC<UsersListProps> = ({ users }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+
     return (
         <>
             <GroupChatModal
@@ -24,7 +25,7 @@ const UsersList: React.FC<UsersListProps> = ({ users }) => {
             <aside className="fixed inset-y-0 pb-20 lg:pb-0 lg:top-20 lg:w-80 lg:block overflow-y-auto block w-full left-0 bg-[#0c1317]">
                 <div className="px-5">
                     <div className="flex-col">
-                        <div className="flex justify-between py-8">
+                        <div className="flex justify-between py-6">
                             <div className="text-3xl justify-center items-center font-extrabold text-[#578EFF]">
                                 Users
                             </div>
