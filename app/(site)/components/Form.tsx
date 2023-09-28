@@ -25,7 +25,7 @@ const User = () => {
         // After authentication, push to conversations screen
         if (session?.status === "authenticated") {
             router.push("/conversations");
-            // setTimeout(() => window.location.reload(), 5000);
+            setTimeout(() => window.location.reload(), 5000);
         }
     }, [session?.status, router]);
 
