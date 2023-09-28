@@ -24,7 +24,7 @@ const Chat = async ({ params }: { params: Iparams }) => {
     }
     return (
         <>
-            <div className="lg:pl-80 lg:mt-[-79.5px] border-l-[0.1px] text-[#d1d3d7] h-full bg-[#1a1f25]">
+            <div className="lg:pl-80 lg:mt-[-79px] border-l-[0.1px] text-[#d1d3d7] h-full bg-[#1a1f25]">
                 <div className="h-full flex flex-col">
                     <Header conversation={conversation} />
                     <Body initialMessages={messages} />

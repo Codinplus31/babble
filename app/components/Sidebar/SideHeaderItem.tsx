@@ -16,7 +16,6 @@ const SideHeaderItem: React.FC<SideHeaderItemProps> = ({
 }) => {
     const handleClick = () => {
         if (onClick) {
-            setTimeout(() => window.location.reload(), 5000);
             return onClick();
         }
     };
@@ -27,17 +26,17 @@ const SideHeaderItem: React.FC<SideHeaderItemProps> = ({
                 href={href}
                 className={clsx(
                     `
-            group 
-            flex 
-            gap-y-3 
-            rounded-md 
-            p-3 
-            text-lg 
-            leading-6 
-            font-semibold 
-            text-[#8696a0] 
-            hover:text-[#d1d3d7]
-            hover:bg-[#1a1f25]
+                        group 
+                        flex 
+                        gap-y-3 
+                        rounded-md 
+                        p-3 
+                        text-lg 
+                        leading-6 
+                        font-semibold 
+                        text-[#8696a0] 
+                        hover:text-[#d1d3d7]
+                        hover:bg-[#1a1f25]
           `,
                     active && "bg-[#1a1f25] text-[#8696a0]"
                 )}
