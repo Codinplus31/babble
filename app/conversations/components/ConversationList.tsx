@@ -80,6 +80,12 @@ const ConversationList: React.FC<ConversationListProps> = ({
         pusherClient.bind("conversation:remove", removeHandler);
 
         return () => {
+            let reloadCount: number = 0;
+            reloadCount = reloadCount + 1;
+            if (reloadCount > 1) {
+                setTimeout(() => window.location.reload(), 3000);
+            }
+            
             pusherClient.unsubscribe(pusherKey);
             pusherClient.unbind("conversation:new", newHandler);
             pusherClient.unbind("conversation:update", updateHandler);
