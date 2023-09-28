@@ -84,7 +84,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
             pusherClient.unbind("conversation:new", newHandler);
             pusherClient.unbind("conversation:update", updateHandler);
             pusherClient.unbind("conversation:remove", removeHandler);
-            setTimeout(() => window.location.reload(), 2000);
+            window.location.reload();
         };
     }, [pusherKey, router]);
     
