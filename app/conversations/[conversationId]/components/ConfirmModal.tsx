@@ -31,7 +31,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({ isOpen, onClose }) => {
                 onClose();
                 router.push("/conversations");
                 router.refresh();
-                setTimeout(() => window.location.reload(), 5000);
+                // setTimeout(() => window.location.reload(), 5000);
             })
             .catch(() => toast.error("Something went wrong!"))
             .finally(() => setIsLoading(false));
