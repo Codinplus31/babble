@@ -5,7 +5,6 @@ import UserBox from "./UserBox";
 
 import { AiFillFolderAdd } from "react-icons/ai";
 
-import { SideHeader } from "@/app/components/Sidebar/SideHeader";
 import GroupChatModal from "@/app/components/Modals/GroupChatModal";
 import { useState } from "react";
 
