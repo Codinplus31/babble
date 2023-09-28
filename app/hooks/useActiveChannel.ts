@@ -32,8 +32,6 @@ const useActiveChannel = () => {
             remove(member.id);
         });
 
-        setTimeout(() => window.location.reload(), 5000);
-
         return () => {
             if (activeChannel) {
                 pusherClient.unsubscribe("presence-babble");
