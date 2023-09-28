@@ -4,6 +4,8 @@ import { User } from "@prisma/client";
 import Image from "next/image";
 import useActiveList from "../hooks/useActiveList";
 
+import avatar from "../../public/assets/avatar.ico"
+
 interface AvatarProps {
     user?: User;
 }
@@ -16,7 +18,7 @@ const Avatar: React.FC<AvatarProps> = ({ user }) => {
         <div className="relative">
             <div className="relative rounded-full overflow-hidden inline-block h-9 w-9 md:h-11 md:w-11">
                 <Image
-                    src={user?.image || "/assets/avatar.ico"}
+                    src={user?.image || avatar}
                     fill
                     sizes="(min-width:2560px) 100%"
                     alt="Avatar"

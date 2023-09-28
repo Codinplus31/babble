@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import Modal from "../Modals/Modal";
 import Input from "../Input/Input";
 import Image from "next/image";
+import avatar from "../../../public/assets/avatar.ico";
 
 import { CldUploadButton } from "next-cloudinary";
 import Button from "../Button";
@@ -95,7 +96,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                                         src={
                                             image ||
                                             currentUser?.image ||
-                                            "/assets/avatar.ico"
+                                            avatar
                                         }
                                     />
                                     <CldUploadButton

@@ -2,6 +2,7 @@
 
 import { User } from "@prisma/client";
 import Image from "next/image";
+import avatar from "../../public/assets/avatar.ico";
 
 interface MultipleAvatarProps {
     users?: User[];
@@ -28,7 +29,7 @@ const MultipleAvatar: React.FC<MultipleAvatarProps> = ({ users = [] }) => {
                         alt="Group Picture"
                         fill
                         sizes="(min-width:2560px) 100%"
-                        src={user?.image || "/assets/avatar.ico"}
+                        src={user?.image || avatar}
                     />
                 </div>
             ))}
