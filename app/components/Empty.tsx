@@ -7,8 +7,8 @@ const Empty = () => {
             <div className="text-center items-center flex flex-col fixed">
                 <Image
                     src={logo}
-                    width="0"
-                    height="0"
+                    width="10"
+                    height="10"
                     sizes="100vw"
                     className="rounded-3xl"
                     alt="Babble"
