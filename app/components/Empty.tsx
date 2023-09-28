@@ -7,10 +7,10 @@ const Empty = () => {
             <div className="text-center items-center flex flex-col fixed">
                 <Image
                     src={logo}
-                    width="10"
-                    height="10"
+                    width="0"
+                    height="0"
                     sizes="100vw"
-                    className="rounded-3xl"
+                    className="h-auto rounded-3xl"
                     alt="Babble"
                 />
                 <h1 className="mt-4 text-[#d1d3d7] font-semibold text-2xl">

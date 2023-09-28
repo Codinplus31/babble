@@ -11,7 +11,7 @@ export default function Home() {
                     width="0"
                     height="0"
                     sizes="100vw"
-                    className="w-auto h-auto mx-auto rounded-md"
+                    className="w-auto mx-auto rounded-md"
                     alt="Logo"
                     // className="mx-auto w-auto rounded-md"
                 />
