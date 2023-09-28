@@ -16,6 +16,7 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const handleClick = useCallback(() => {
+        // router.refresh();
         setIsLoading(true);
 
         axios

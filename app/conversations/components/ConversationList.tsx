@@ -39,6 +39,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
         if (!pusherKey) {
             return;
         }
+        // router.refresh();
 
         pusherClient.subscribe(pusherKey);
 
