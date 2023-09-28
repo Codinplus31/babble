@@ -39,7 +39,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
         if (!pusherKey) {
             return;
         }
-        
+
         pusherClient.subscribe(pusherKey);
 
         // append new conversation
@@ -84,19 +84,16 @@ const ConversationList: React.FC<ConversationListProps> = ({
             pusherClient.unbind("conversation:new", newHandler);
             pusherClient.unbind("conversation:update", updateHandler);
             pusherClient.unbind("conversation:remove", removeHandler);
-            setTimeout(() => window.location.reload(), 2000);
+
+            let reloadCount: number = 0;
+            reloadCount = reloadCount + 1;
+            if (reloadCount > 1) {
+                setTimeout(() => window.location.reload(), 1000);
+                return;
+            }
         };
     }, [pusherKey, router]);
 
-    useEffect(() => {
-        let reloadCount: number = 0;
-        reloadCount = reloadCount + 1;
-        if (reloadCount > 1) {
-            setTimeout(() => window.location.reload(), 3000);
-            return;
-        }
-    }, []);
-    
     return (
         <>
             <GroupChatModal
