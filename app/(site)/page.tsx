@@ -10,7 +10,7 @@ export default function Home() {
                     height="10"
                     width="10"
                     alt="Logo"
-                    className="mx-auto w-auto rounded-xl"
+                    className="mx-auto w-auto"
                 />
                 <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-[#d1d3d7]">
                     Sign In
