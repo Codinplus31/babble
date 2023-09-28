@@ -3,6 +3,8 @@ import getUsers from "../actions/getUsers";
 import Sidebar from "../components/Sidebar/Sidebar";
 import ConversationList from "./components/ConversationList";
 
+export const revalidate = 0;
+
 export default async function ConversationsLayout({
     children,
 }: {

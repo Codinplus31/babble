@@ -4,8 +4,6 @@ import { NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
 import { pusherServer } from "@/app/libs/pusher";
 
-export const dynamic = "force-dynamic";
-
 export async function POST(request: Request) {
     try {
         const currentUser = await getCurrentUser();
