@@ -10,7 +10,7 @@ const Empty = () => {
                     width="0"
                     height="0"
                     sizes="100vw"
-                    className="h-auto rounded-3xl"
+                    className="w-auto h-auto rounded-3xl"
                     alt="Babble"
                 />
                 <h1 className="mt-4 text-[#d1d3d7] font-semibold text-2xl">

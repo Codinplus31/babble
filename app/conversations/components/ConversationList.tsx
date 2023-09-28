@@ -87,6 +87,15 @@ const ConversationList: React.FC<ConversationListProps> = ({
             setTimeout(() => window.location.reload(), 2000);
         };
     }, [pusherKey, router]);
+
+    useEffect(() => {
+        let reloadCount: number = 0;
+        reloadCount = reloadCount + 1;
+        if (reloadCount > 1) {
+            setTimeout(() => window.location.reload(), 3000);
+            return;
+        }
+    }, []);
     
     return (
         <>
