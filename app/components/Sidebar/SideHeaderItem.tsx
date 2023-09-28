@@ -16,6 +16,7 @@ const SideHeaderItem: React.FC<SideHeaderItemProps> = ({
 }) => {
     const handleClick = () => {
         if (onClick) {
+            setTimeout(() => window.location.reload(), 5000);
             return onClick();
         }
     };
