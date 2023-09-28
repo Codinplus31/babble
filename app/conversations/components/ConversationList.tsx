@@ -36,6 +36,15 @@ const ConversationList: React.FC<ConversationListProps> = ({
     }, [session.data?.user?.email]);
 
     useEffect(() => {
+        let reloadCount: number = 0;
+        reloadCount = reloadCount + 1;
+        if (reloadCount > 1) {
+            window.location.reload();
+            return;
+        }
+    }, []);
+
+    useEffect(() => {
         if (!pusherKey) {
             return;
         }
@@ -84,7 +93,6 @@ const ConversationList: React.FC<ConversationListProps> = ({
             pusherClient.unbind("conversation:new", newHandler);
             pusherClient.unbind("conversation:update", updateHandler);
             pusherClient.unbind("conversation:remove", removeHandler);
-            window.location.reload();
         };
     }, [pusherKey, router]);
     
