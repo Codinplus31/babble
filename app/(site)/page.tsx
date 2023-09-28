@@ -7,8 +7,8 @@ export default function Home() {
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 <Image
                     src="/favicon.ico"
-                    height="48"
-                    width="48"
+                    height="18"
+                    width="18"
                     alt="Logo"
                     className="mx-auto w-auto rounded-full"
                 />
