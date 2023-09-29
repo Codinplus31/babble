@@ -26,7 +26,7 @@ const User = () => {
         if (session?.status === "authenticated") {
             router.push("/conversations");
 
-            setTimeout(() => router.refresh(), 5000);
+            setTimeout(() => window.location.reload(), 2000);
         }
     }, [session?.status, router]);
 
@@ -64,7 +64,7 @@ const User = () => {
                     }
                     if (callback?.ok) {
                         router.push("/conversations");
-                        setTimeout(() => router.refresh(), 5000);
+                        setTimeout(() => window.location.reload(), 2000);
                     }
                 })
                 .catch(() => toast.error("Something went wrong!"))
@@ -84,7 +84,7 @@ const User = () => {
                     if (callback?.ok && !callback?.error) {
                         toast.success("You are logged in now!");
                         router.push("/conversations");
-                        setTimeout(() => router.refresh(), 5000);
+                        setTimeout(() => window.location.reload(), 2000);
                     }
                 })
                 .finally(() => {
@@ -105,7 +105,7 @@ const User = () => {
                 if (callback?.ok && !callback?.error) {
                     toast.success("You are logged in now!");
                     router.push("/conversations");
-                    setTimeout(() => router.refresh(), 5000);
+                    setTimeout(() => window.location.reload(), 2000);
                 }
             })
             .finally(() => setIsLoading(false));
