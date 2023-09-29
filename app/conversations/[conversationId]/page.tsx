@@ -5,11 +5,11 @@ import Header from "./components/Header";
 import Body from "./components/Body";
 import SendMessage from "./components/SendMessage";
 
-interface Iparams {
+interface IParams {
     conversationId: string;
 }
 
-const Chat = async ({ params }: { params: Iparams }) => {
+const Chat = async ({ params }: { params: IParams }) => {
     const conversation = await getConversationById(params.conversationId);
     const messages = await getMessages(params.conversationId);
 
