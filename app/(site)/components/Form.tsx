@@ -25,7 +25,8 @@ const User = () => {
         // After authentication, push to conversations screen
         if (session?.status === "authenticated") {
             router.push("/conversations");
-            setTimeout(() => window.location.reload(), 5000);
+            router.refresh();
+            // setTimeout(() => window.location.reload(), 5000);
         }
     }, [session?.status, router]);
 
@@ -63,7 +64,8 @@ const User = () => {
                     }
                     if (callback?.ok) {
                         router.push("/conversations");
-                        setTimeout(() => window.location.reload(), 5000);
+                        router.refresh();
+                        // setTimeout(() => window.location.reload(), 5000);
                     }
                 })
                 .catch(() => toast.error("Something went wrong!"))
@@ -83,7 +85,8 @@ const User = () => {
                     if (callback?.ok && !callback?.error) {
                         toast.success("You are logged in now!");
                         router.push("/conversations");
-                        setTimeout(() => window.location.reload(), 5000);
+                        router.refresh();
+                        // setTimeout(() => window.location.reload(), 5000);
                     }
                 })
                 .finally(() => {
@@ -104,7 +107,8 @@ const User = () => {
                 if (callback?.ok && !callback?.error) {
                     toast.success("You are logged in now!");
                     router.push("/conversations");
-                    setTimeout(() => window.location.reload(), 5000);
+                    router.refresh();
+                    // setTimeout(() => window.location.reload(), 5000);
                 }
             })
             .finally(() => setIsLoading(false));

@@ -16,7 +16,6 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const handleClick = useCallback(() => {
-        // router.refresh();
         setIsLoading(true);
 
         axios
@@ -25,6 +24,7 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
             })
             .then((data) => {
                 router.push(`/conversations/${data.data.id}`);
+                router.refresh();
             })
             .finally(() => setIsLoading(false));
     }, [data, router]);
