@@ -39,8 +39,13 @@ const ConversationList: React.FC<ConversationListProps> = ({
         let reloadCount: number = 0;
         reloadCount = reloadCount + 1;
         if (reloadCount > 1) {
-            window.location.reload();
-            return;
+            console.log(reloadCount);
+            if (window.localStorage) {
+                if (!localStorage.getItem("firstLoad")) {
+                    localStorage["firstLoad"] = true;
+                    window.location.reload();
+                } else localStorage.removeItem("firstLoad");
+            }
         }
     }, []);
 
@@ -48,7 +53,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
         if (!pusherKey) {
             return;
         }
-        
+
         pusherClient.subscribe(pusherKey);
 
         // append new conversation
@@ -95,7 +100,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
             pusherClient.unbind("conversation:remove", removeHandler);
         };
     }, [pusherKey, router]);
-    
+
     return (
         <>
             <GroupChatModal

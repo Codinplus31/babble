@@ -19,8 +19,12 @@ const UsersList: React.FC<UsersListProps> = ({ users }) => {
         let reloadCount: number = 0;
         reloadCount = reloadCount + 1;
         if (reloadCount > 1) {
-            window.location.reload();
-            return;
+            if (window.localStorage) {
+                if (!localStorage.getItem("firstLoad")) {
+                    localStorage["firstLoad"] = true;
+                    window.location.reload();
+                } else localStorage.removeItem("firstLoad");
+            }
         }
     }, []);
 
