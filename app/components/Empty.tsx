@@ -3,7 +3,7 @@ import logo from "../../public/assets/icon.png";
 
 const Empty = () => {
     return (
-        <div className="px-4 py-20 sm:px-6 lg:px-8 h-[100vh] flex justify-center items-center bg-[#1a1f25] mt-[-80px]">
+        <div className="px-4 py-20 sm:px-6 lg:px-8 h-[100vh] flex justify-center items-center bg-[#1a1f25] lg:mt-[-80px]">
             <div className="text-center items-center flex flex-col fixed">
                 <Image
                     src={logo}
