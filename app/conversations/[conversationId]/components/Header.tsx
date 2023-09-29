@@ -39,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
                 isOpen={openMore}
                 onClose={() => setOpenMore(false)}
             />
-            <div className="bg-[#202c33] w-full flex sm:px-4 py-[1rem] px-4 lg:px-6 justify-between items-center shadow-sm">
+            <div className="bg-[#202c33] w-full flex py-3 lg:py-[1rem] px-4 lg:px-6 justify-between items-center shadow-sm">
                 <div className="flex gap-3 items-center">
                     <Link
                         href="/conversations"

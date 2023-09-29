@@ -41,7 +41,7 @@ const SendMessage = () => {
     };
 
     return (
-        <div className="py-[19.3px] px-4 bg-[#202c33] flex items-center gap-2 lg:gap-4 w-full mb-[-80px]">
+        <div className="lg:py-[19.3px] px-4 py-4 bg-[#202c33] flex items-center gap-2 lg:gap-4 w-full lg:mb-[-80px]">
             <CldUploadButton
                 options={{ maxFiles: 1 }}
                 onUpload={handleUpload}
