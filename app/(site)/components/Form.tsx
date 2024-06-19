@@ -18,6 +18,9 @@ const User = () => {
     const [variant, setVariant] = useState<Variant>("LOGIN");
     const [isLoading, setIsLoading] = useState(false);
 
+    // Guest details
+    const [isVisible, setIsVisible] = useState(true);
+
     const session = useSession();
     const router = useRouter();
 
@@ -36,7 +39,8 @@ const User = () => {
         } else {
             setVariant("LOGIN");
         }
-    }, [variant]);
+        setIsVisible(!isVisible);
+    }, [variant, isVisible]);
 
     const {
         register,
@@ -115,7 +119,7 @@ const User = () => {
     const guestPassword = "se7en";
 
     return (
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md text-[#d1d3d7] text-xl font-semibold">
+        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md text-[#d1d3d7] text-xl font-semibold overflow-hidden">
             <div className="rounded-xl bg-[#202c33] px-4 py-8 shadow sm:rounded-xl sm:px-10 2xl:w-full">
                 <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                     {variant === "REGISTER" && (
@@ -185,15 +189,17 @@ const User = () => {
                         {variant === "LOGIN" ? "Sign Up" : "Sign In"}
                     </div>
                 </div>
-                <div className="flex justify-center items-center">
-                    <div className="mt-2 p-4 border-2 border-white-500 bg-[#000]">
-                        <p className="text-red-500 flex justify-center">
-                            Guest Details
-                        </p>
-                        <p>Email: {guestMail}</p>
-                        <p>Password: {guestPassword}</p>
+                {isVisible && (
+                    <div className="flex justify-center items-center">
+                        <div className="mt-2 p-4 border-2 border-white-500 bg-[#000]">
+                            <p className="text-red-500 flex justify-center">
+                                Guest Details
+                            </p>
+                            <p>Email: {guestMail}</p>
+                            <p>Password: {guestPassword}</p>
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
         </div>
     );
