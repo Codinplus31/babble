@@ -111,6 +111,9 @@ const User = () => {
             .finally(() => setIsLoading(false));
     };
 
+    const guestMail = "fincher@gmail.com";
+    const guestPassword = "se7en";
+
     return (
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md text-[#d1d3d7] text-xl font-semibold">
             <div className="rounded-xl bg-[#202c33] px-4 py-8 shadow sm:rounded-xl sm:px-10 2xl:w-full">
@@ -180,6 +183,15 @@ const User = () => {
                         onClick={toggleVariant}
                     >
                         {variant === "LOGIN" ? "Sign Up" : "Sign In"}
+                    </div>
+                </div>
+                <div className="flex justify-center items-center">
+                    <div className="mt-2 p-4 border-2 border-white-500 bg-[#000]">
+                        <p className="text-red-500 flex justify-center">
+                            Guest Details
+                        </p>
+                        <p>Email: {guestMail}</p>
+                        <p>Password: {guestPassword}</p>
                     </div>
                 </div>
             </div>
