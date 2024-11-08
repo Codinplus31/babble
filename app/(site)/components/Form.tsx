@@ -170,10 +170,10 @@ const User = () => {
                     </div>
                     <div className="mt-6">
                         {/* Google */}
-                        <Google
+                {/*   <Google
                             icon={FcGoogle}
                             onClick={() => socialMedia("google")}
-                        />
+                        />*/}
                     </div>
                 </div>
                 <div className="flex gap-2 justify-center text-lg mt-6 px-2">
