@@ -1,4 +1,4 @@
-'use client';
+
 import PusherServer from "pusher";
 import PusherClient from "pusher-js";
 let app_id = "1892829"
