@@ -189,8 +189,8 @@ const User = () => {
                         {variant === "LOGIN" ? "Sign Up" : "Sign In"}
                     </div>
                 </div>
-                {isVisible && (
-                        {/* <div className="flex justify-center items-center">
+                {/*isVisible && (
+                         <div className="flex justify-center items-center">
                         <div className="mt-2 p-4 border-2 border-white-500 bg-[#000]">
                             <p className="text-red-500 flex justify-center">
                                 Guest Details
@@ -198,8 +198,8 @@ const User = () => {
                             <p>Email: {guestMail}</p>
                             <p>Password: {guestPassword}</p>
                         </div>
-                    </div> */}
-                )}
+                    </div> 
+                )*/}
             </div>
         </div>
     );
