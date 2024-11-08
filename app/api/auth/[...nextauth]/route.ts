@@ -10,10 +10,10 @@ import prisma from "@/app/libs/prismadb";
 export const authOptions: AuthOptions = {
     adapter: PrismaAdapter(prisma),
     providers: [
-        /*GoogleProvider({
+        GoogleProvider({
             clientId: process.env.NEXT_CLIENT_ID,
             clientSecret: process.env.NEXT_CLIENT_SECRET,
-        }), */
+        }), 
         CredentialsProvider({
             name: "credentials",
             credentials: {
@@ -52,7 +52,7 @@ export const authOptions: AuthOptions = {
     session: {
         strategy: "jwt",
     },
-   /* secret: "351b334e547864e25d95f981192683dc"*/
+    secret: "351b334e547864e25d95f981192683dc"
 };
 
 const handler = NextAuth(authOptions);
