@@ -9,7 +9,7 @@ export const pusherServer = new PusherServer({
     appId: app_id,
     key: key,
     secret: secret,
-    cluster: "mt1"
+    cluster: "mt1",
     useTLS: true,
 });
 
