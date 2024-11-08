@@ -11,8 +11,8 @@ export const authOptions: AuthOptions = {
     adapter: PrismaAdapter(prisma),
     providers: [
         GoogleProvider({
-            clientId: "ggghhhhh",
-            clientSecret: "ngdhfgjn",
+            clientId: process.env.NEXT_CLIENT_ID,
+            clientSecret: process.env.NEXT_CLIENT_SECRET,
         }),
         CredentialsProvider({
             name: "credentials",
