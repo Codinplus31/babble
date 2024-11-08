@@ -9,11 +9,12 @@ import prisma from "@/app/libs/prismadb";
 
 export const authOptions: AuthOptions = {
     adapter: PrismaAdapter(prisma),
-    providers: [
+    providers: [ 
+      /*
         GoogleProvider({
             clientId: process.env.NEXT_CLIENT_ID,
             clientSecret: process.env.NEXT_CLIENT_SECRET,
-        }), 
+        }), */
         CredentialsProvider({
             name: "credentials",
             credentials: {
