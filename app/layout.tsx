@@ -9,7 +9,7 @@ import ActiveStatus from "./components/ActiveStatus";
 import bg from "../public/assets/bg.png";
 
 export const metadata: Metadata = {
-    title: "Babble",
+    title: "Sext",
     description: "Real-time chat application",
 };
 
