@@ -69,7 +69,7 @@ const [vidModal, setVidModal] = useState(false);
                             className="w-auto h-auto object-cover cursor-pointer hover:scale-110 transition translate"
                         />
                     ) : data.image && data.image.includes("/video/")?(
-                        <video width="200px" height="320px" controls preload="none">
+                        <video width="250px" height="500px" controls preload="none">
       <source src={data.image} type="video/mp4" />
       
       Your browser does not support the video tag.
