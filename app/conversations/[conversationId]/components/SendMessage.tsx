@@ -45,7 +45,7 @@ const SendMessage = () => {
             <CldUploadButton
                 options={{ maxFiles: 1 }}
                 onUpload={handleUpload}
-                uploadPreset="chat"
+                uploadPreset="chat_ids"
             >
                 <TiAttachmentOutline
                     size={30}
