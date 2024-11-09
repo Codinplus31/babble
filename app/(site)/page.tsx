@@ -1,4 +1,4 @@
-import Image from "next/image";
+ import Image from "next/image";
 import User from "./components/Form";
 import logo from "../../public/assets/icon.png";
 
