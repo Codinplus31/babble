@@ -103,7 +103,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
                 <div className="px-5">
                     <div className="flex justify-between py-6">
                         <div className="text-3xl justify-center items-center font-extrabold text-[#578EFF]">
-                            Babble
+                            Sext
                         </div>
                         <div
                             className="p-2 bg-[#0c1317] text-[#d1d3d7] cursor-pointer hover:opacity-75 transition"
