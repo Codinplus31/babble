@@ -58,7 +58,7 @@ const [vidModal, setVidModal] = useState(false);
                         isOpen={imgModal}
                         onClose={() => setImgModal(false)}
                     />
-                    {data.image && data.image.endsWith(".mp4") === false? (
+                    {data.image && data.image.includes("/image/")? (
                         <Image 
                             onClick={() => setImgModal(true)}
                             alt="Image"
@@ -68,7 +68,7 @@ const [vidModal, setVidModal] = useState(false);
                             src={data.image}
                             className="w-auto h-auto object-cover cursor-pointer hover:scale-110 transition translate"
                         />
-                    ) : data.image && data.image.endsWith(".mp4") === true?(
+                    ) : data.image && data.image.includes("/video/")?(
                         <video width="100vw" height="100vw" controls preload="none">
       <source src={data.image} type="video/mp4" />
       
