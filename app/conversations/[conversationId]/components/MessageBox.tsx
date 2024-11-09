@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useState } from "react";
 import ImgModal from "./ImgModal";
+import VidModal from "./VidModal";
 
 interface MessageBoxProps {
     data: FullMessageType;
@@ -17,6 +18,7 @@ interface MessageBoxProps {
 const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
     const session = useSession();
     const [imgModal, setImgModal] = useState(false);
+const [vidModal, setVidModal] = useState(false);
 
     const isOwn = session.data?.user?.email === data?.sender?.email;
     const seenList = (data.seen || [])
@@ -56,8 +58,8 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
                         isOpen={imgModal}
                         onClose={() => setImgModal(false)}
                     />
-                    {data.image ? (
-                        <Image
+                    {data.image && !data.image.endWiths(".mp4") ? (
+                        <Image 
                             onClick={() => setImgModal(true)}
                             alt="Image"
                             width="0"
@@ -66,9 +68,14 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
                             src={data.image}
                             className="w-auto h-auto object-cover cursor-pointer hover:scale-110 transition translate"
                         />
-                    ) : (
-                        <div className="text-xl">{data.body}</div>
-                    )}
+                    ) : data.image && data.image.endWiths(".mp4")?(
+                        <video width="100vw" height="100vw" controls preload="none">
+      <source src={data.image} type="video/mp4" />
+      
+      Your browser does not support the video tag.
+    </video>
+                    ) : (<div className="text-xl">{data.body}</div>
+                )}
                 </div>
                 {isLast && isOwn && seenList.length > 0 && (
                     <div className="text-xs font-light text-[#8696a0]">
