@@ -120,7 +120,7 @@ const handleAcceptTerms = () => {
             </button>
             <h2 className="text-2xl font-bold mb-4 text-gray-800">Terms and Conditions</h2>
             <p className="text-gray-600 mb-6">
-              By clicking the "Accept" button below, you acknowledge that you have read, understood, and agree to be
+              By clicking the {`"Accept"`} button below, you acknowledge that you have read, understood, and agree to be
               bound by our Terms and Conditions. Please review them carefully before proceeding.
             </p>
             <div className="flex justify-end">
