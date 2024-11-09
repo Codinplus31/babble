@@ -6,7 +6,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Input } from "@/components/ui/input"
 import { Loader2, Video, Upload, AlertCircle } from "lucide-react"
-
+import { X } from 'lucide-react'
 export default function VideoRecorder() {
   const [isRecording, setIsRecording] = useState(false)
   const [videoBlob, setVideoBlob] = useState<Blob | null>(null)
