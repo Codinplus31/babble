@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary'
 import { NextResponse } from 'next/server'
+import streamifier from 'streamifier';
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -20,8 +21,8 @@ export async function POST(request: Request) {
     const buffer = Buffer.from(arrayBuffer)
 
     return new Promise((resolve, reject) => {
-      cloudinary.uploader.upload_stream(
-        { resource_type: 'video' },
+  let uploadStream =    cloudinary.uploader.upload_stream(
+        { resource_type: 'video', format:"mp4" },
         (error, result) => {
           if (error) {
             console.error('Cloudinary upload error:', error)
@@ -30,7 +31,8 @@ export async function POST(request: Request) {
             resolve(NextResponse.json({ url: result?.secure_url }))
           }
         }
-      ).end(buffer)
+      )
+      streamifier.createReadStream(buffer).pipe(uploadStream);
     })
   } catch (error) {
     console.error('Upload error:', error)
