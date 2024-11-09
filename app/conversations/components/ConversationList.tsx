@@ -5,7 +5,7 @@ import { FullConversationType } from "@/app/types";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-
+import { X } from 'lucide-react'
 import { AiFillFolderAdd } from "react-icons/ai";
 import ConversationBox from "./ConversationBox";
 import GroupChatModal from "../../components/Modals/GroupChatModal";
