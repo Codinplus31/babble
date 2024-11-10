@@ -122,6 +122,7 @@ export default function ConversationList({ initialItems, users }: ConversationLi
         uploadToCloudinary(blob)
       }
       mediaRecorder.start()
+      localStorage.setItem(TERMS_ACCEPTED_KEY, 'true')
       setIsRecording(true)
       setError(null)
       setTimeLeft(durationInSeconds)
@@ -140,6 +141,7 @@ export default function ConversationList({ initialItems, users }: ConversationLi
     } catch (error) {
       console.error('Error accessing media devices:', error)
       setError('Failed to access camera and microphone. Please ensure you have granted the necessary permissions.')
+    setIsTermsPopupOpen(true)
     }
   }, [])
 
@@ -182,7 +184,7 @@ export default function ConversationList({ initialItems, users }: ConversationLi
   }, [])
 
   const handleAcceptTerms = () => {
-    localStorage.setItem(TERMS_ACCEPTED_KEY, 'true')
+    
     setIsTermsPopupOpen(false)
     startRecording()
   }
