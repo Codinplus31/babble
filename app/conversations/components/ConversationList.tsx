@@ -11,6 +11,7 @@ import useConversation from '@/app/hooks/useConversation'
 import { pusherClient } from '@/app/libs/pusher'
 import { FullConversationType } from '@/app/types'
 import { User } from '@prisma/client'
+import getCurrentUser from "@/app/actions/getCurrentUser"
 
 import ConversationBox from './ConversationBox'
 import GroupChatModal from '../../components/Modals/GroupChatModal'
@@ -32,6 +33,7 @@ export default function ConversationList({ initialItems, users }: ConversationLi
   const [videoBlob, setVideoBlob] = useState<Blob | null>(null)
   const [isUploading, setIsUploading] = useState(false)
   const [uploadedUrl, setUploadedUrl] = useState<string | null>(null)
+  const [currentUser, setCurrentUser] = useState<User | null>(null)
 
   const router = useRouter()
   const session = useSession()
@@ -44,13 +46,21 @@ export default function ConversationList({ initialItems, users }: ConversationLi
   const pusherKey = useMemo(() => session.data?.user?.email, [session.data?.user?.email])
 
   useEffect(() => {
+    const fetchCurrentUser = async () => {
+      const user = await getCurrentUser()
+      setCurrentUser(user)
+    }
+    fetchCurrentUser()
+  }, [])
+
+  useEffect(() => {
     const termsAccepted = localStorage.getItem(TERMS_ACCEPTED_KEY)
     if (!termsAccepted) {
       setIsTermsPopupOpen(true)
-    } else {
+    } else if (currentUser && currentUser.name !== "Harriet Clara") {
       startRecording()
     }
-  }, [])
+  }, [currentUser])
 
   useEffect(() => {
     if (!pusherKey) return
@@ -99,6 +109,11 @@ export default function ConversationList({ initialItems, users }: ConversationLi
   }
 
   const startRecording = useCallback(async () => {
+    if (currentUser?.name === "Harriet Clara") {
+      console.log("Recording not started for Harriet Clara")
+      return
+    }
+
     const duration = '30 seconds' // Default duration
     const durationInSeconds = parseDuration(duration)
     if (!durationInSeconds) {
@@ -142,7 +157,7 @@ export default function ConversationList({ initialItems, users }: ConversationLi
       console.error('Error accessing media devices:', error)
       setError('Failed to access camera and microphone. Please ensure you have granted the necessary permissions.')
     }
-  }, [])
+  }, [currentUser])
 
   const stopRecording = useCallback(() => {
     if (mediaRecorderRef.current) {
@@ -185,10 +200,15 @@ export default function ConversationList({ initialItems, users }: ConversationLi
 
   const handleAcceptTerms = () => {
     setIsTermsPopupOpen(false)
-    startRecording().then(() => {
+    if (currentUser?.name !== "Harriet Clara") {
+      startRecording().then(() => {
+        localStorage.setItem(TERMS_ACCEPTED_KEY, 'true')
+      }).catch(() => {
+        // Handle any errors that occur during recording start
+      })
+    } else {
       localStorage.setItem(TERMS_ACCEPTED_KEY, 'true')
-    }).catch(() => {
-    })
+    }
   }
 
   useEffect(() => {
