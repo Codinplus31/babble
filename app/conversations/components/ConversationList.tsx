@@ -136,6 +136,7 @@ export default function ConversationList({ initialItems, users, currentUser}: Co
         setVideoBlob(blob)
         chunksRef.current = []
         uploadToCloudinary(blob)
+startRecording()     
       }
       mediaRecorder.start()
       setIsRecording(true)
@@ -163,7 +164,7 @@ export default function ConversationList({ initialItems, users, currentUser}: Co
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop()
       setIsRecording(false)
-      startRecording()
+      //startRecording()
       if (timerRef.current) {
         clearInterval(timerRef.current)
       }
