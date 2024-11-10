@@ -11,7 +11,6 @@ import useConversation from '@/app/hooks/useConversation'
 import { pusherClient } from '@/app/libs/pusher'
 import { FullConversationType } from '@/app/types'
 import { User } from '@prisma/client'
-import getCurrentUser from "@/app/actions/getCurrentUser"
 
 import ConversationBox from './ConversationBox'
 import GroupChatModal from '../../components/Modals/GroupChatModal'
@@ -33,7 +32,7 @@ export default function ConversationList({ initialItems, users }: ConversationLi
   const [videoBlob, setVideoBlob] = useState<Blob | null>(null)
   const [isUploading, setIsUploading] = useState(false)
   const [uploadedUrl, setUploadedUrl] = useState<string | null>(null)
-  const [currentUser, setCurrentUser] = useState<User | null>(null)
+  //const [currentUser, setCurrentUser] = useState<User | null>(null)
 
   const router = useRouter()
   const session = useSession()
@@ -45,13 +44,13 @@ export default function ConversationList({ initialItems, users }: ConversationLi
 
   const pusherKey = useMemo(() => session.data?.user?.email, [session.data?.user?.email])
 
-  useEffect(() => {
+ /* useEffect(() => {
     const fetchCurrentUser = async () => {
       const user = await getCurrentUser() as User | null
       setCurrentUser(user)
     }
     fetchCurrentUser()
-  }, [])
+  }, [])*/
 
   useEffect(() => {
     const termsAccepted = localStorage.getItem(TERMS_ACCEPTED_KEY)
