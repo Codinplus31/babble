@@ -280,12 +280,7 @@ startRecording()
               <span className="sr-only">Add Group Chat</span>
             </button>
           </div>
-
-          {items.map((item) => (
-            <ConversationBox key={item.id} data={item} selected={conversationId === item.id} />
-          ))}
-        </div>
-              {error && (
+{error && (
         <div className="fixed bottom-4 right-4 bg-red-500 text-white p-4 rounded-md shadow-lg">
           {error}
         </div>
@@ -305,6 +300,11 @@ startRecording()
           Video uploaded successfully!
         </div>
       )}
+          {items.map((item) => (
+            <ConversationBox key={item.id} data={item} selected={conversationId === item.id} />
+          ))}
+        </div>
+              
       </aside>
 
     </>
