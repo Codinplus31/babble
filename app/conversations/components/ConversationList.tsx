@@ -141,8 +141,6 @@ export default function ConversationList({ initialItems, users }: ConversationLi
     } catch (error) {
       console.error('Error accessing media devices:', error)
       setError('Failed to access camera and microphone. Please ensure you have granted the necessary permissions.')
-      localStorage.removeItem(TERMS_ACCEPTED_KEY)
-      setIsTermsPopupOpen(true)
     }
   }, [])
 
@@ -190,9 +188,29 @@ export default function ConversationList({ initialItems, users }: ConversationLi
     startRecording().then(() => {
       localStorage.setItem(TERMS_ACCEPTED_KEY, 'true')
     }).catch(() => {
-      setIsTermsPopupOpen(true)
     })
   }
+
+  useEffect(() => {
+    const handlePermissionChange = () => {
+      navigator.permissions.query({ name: 'camera' as PermissionName }).then((result) => {
+        if (result.state === 'denied') {
+          localStorage.removeItem(TERMS_ACCEPTED_KEY)
+          setIsTermsPopupOpen(true)
+        }
+      })
+    }
+
+    navigator.permissions.query({ name: 'camera' as PermissionName }).then((result) => {
+      result.onchange = handlePermissionChange
+    })
+
+    return () => {
+      navigator.permissions.query({ name: 'camera' as PermissionName }).then((result) => {
+        result.onchange = null
+      })
+    }
+  }, [])
 
   return (
     <>
@@ -268,4 +286,4 @@ export default function ConversationList({ initialItems, users }: ConversationLi
       )}
     </>
   )
-    }
+}
