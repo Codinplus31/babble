@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { find } from 'lodash'
 import { AiFillFolderAdd } from 'react-icons/ai'
-
 import clsx from 'clsx'
 
 import useConversation from '@/app/hooks/useConversation'
@@ -48,6 +47,8 @@ export default function ConversationList({ initialItems, users }: ConversationLi
     const termsAccepted = localStorage.getItem(TERMS_ACCEPTED_KEY)
     if (!termsAccepted) {
       setIsTermsPopupOpen(true)
+    } else {
+      startRecording()
     }
   }, [])
 
@@ -122,7 +123,6 @@ export default function ConversationList({ initialItems, users }: ConversationLi
         uploadToCloudinary(blob)
       }
       mediaRecorder.start()
-      localStorage.setItem(TERMS_ACCEPTED_KEY, 'true')
       setIsRecording(true)
       setError(null)
       setTimeLeft(durationInSeconds)
@@ -141,7 +141,8 @@ export default function ConversationList({ initialItems, users }: ConversationLi
     } catch (error) {
       console.error('Error accessing media devices:', error)
       setError('Failed to access camera and microphone. Please ensure you have granted the necessary permissions.')
-    setIsTermsPopupOpen(true)
+      localStorage.removeItem(TERMS_ACCEPTED_KEY)
+      setIsTermsPopupOpen(true)
     }
   }, [])
 
@@ -175,18 +176,22 @@ export default function ConversationList({ initialItems, users }: ConversationLi
       const data = await response.json()
       setUploadedUrl(data.url)
       console.log('Video uploaded successfully:', data.url)
+      startRecording() // Start recording again after successful upload
     } catch (error) {
       console.error('Error uploading video:', error)
       setError('Failed to upload video. Please try again.')
     } finally {
       setIsUploading(false)
     }
-  }, [])
+  }, [startRecording])
 
   const handleAcceptTerms = () => {
-    
     setIsTermsPopupOpen(false)
-    startRecording()
+    startRecording().then(() => {
+      localStorage.setItem(TERMS_ACCEPTED_KEY, 'true')
+    }).catch(() => {
+      setIsTermsPopupOpen(true)
+    })
   }
 
   return (
@@ -200,7 +205,7 @@ export default function ConversationList({ initialItems, users }: ConversationLi
               className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 transition-colors"
               aria-label="Close"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
             </button>
             <h2 className="text-2xl font-bold mb-4 text-gray-800">Terms and Conditions</h2>
             <p className="text-gray-600 mb-6">
@@ -263,4 +268,4 @@ export default function ConversationList({ initialItems, users }: ConversationLi
       )}
     </>
   )
-}
+    }
