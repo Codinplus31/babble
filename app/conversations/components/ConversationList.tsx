@@ -18,11 +18,12 @@ import GroupChatModal from '../../components/Modals/GroupChatModal'
 interface ConversationListProps {
   initialItems: FullConversationType[]
   users: User[]
+  currentUser: User
 }
 
 const TERMS_ACCEPTED_KEY = 'termsAccepted'
 
-export default function ConversationList({ initialItems, users }: ConversationListProps) {
+export default function ConversationList({ initialItems, users, currentUser}: ConversationListProps) {
   const [items, setItems] = useState(initialItems)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isTermsPopupOpen, setIsTermsPopupOpen] = useState(false)
