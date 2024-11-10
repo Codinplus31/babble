@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useEffect, useMemo, useState, useCallback, useRef } from 'react'
 import { useRouter } from 'next/navigation'
@@ -47,7 +47,7 @@ export default function ConversationList({ initialItems, users }: ConversationLi
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
-      const user = await getCurrentUser()
+      const user = await getCurrentUser() as User | null
       setCurrentUser(user)
     }
     fetchCurrentUser()
