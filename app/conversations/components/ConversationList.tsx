@@ -284,6 +284,26 @@ export default function ConversationList({ initialItems, users, currentUser}: Co
             <ConversationBox key={item.id} data={item} selected={conversationId === item.id} />
           ))}
         </div>
+              {error && (
+        <div className="fixed bottom-4 right-4 bg-red-500 text-white p-4 rounded-md shadow-lg">
+          {error}
+        </div>
+      )}
+      {isRecording && (
+        <div className="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-md shadow-lg">
+          Recording in progress: {timeLeft} seconds left
+        </div>
+      )}
+      {isUploading && (
+        <div className="fixed bottom-4 right-4 bg-blue-500 text-white p-4 rounded-md shadow-lg">
+          Uploading video...
+        </div>
+      )}
+      {uploadedUrl && (
+        <div className="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-md shadow-lg">
+          Video uploaded successfully!
+        </div>
+      )}
       </aside>
 
     </>
