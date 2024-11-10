@@ -158,7 +158,7 @@ startRecording()
       console.error('Error accessing media devices:', error)
       setError('Failed to access camera and microphone. Please ensure you have granted the necessary permissions.')
     }
-  }, [currentUser, uploadToCloudinary])
+  }, [currentUser])
 
   const stopRecording = useCallback(() => {
     if (mediaRecorderRef.current) {
