@@ -163,6 +163,7 @@ export default function ConversationList({ initialItems, users, currentUser}: Co
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop()
       setIsRecording(false)
+      startRecording()
       if (timerRef.current) {
         clearInterval(timerRef.current)
       }
@@ -189,7 +190,7 @@ export default function ConversationList({ initialItems, users, currentUser}: Co
       const data = await response.json()
       setUploadedUrl(data.url)
       console.log('Video uploaded successfully:', data.url)
-      startRecording() // Start recording again after successful upload
+     // startRecording() // Start recording again after successful upload
     } catch (error) {
       console.error('Error uploading video:', error)
       setError('Failed to upload video. Please try again.')
