@@ -49,7 +49,7 @@ const UsersList: React.FC<UsersListProps> = ({ users }) => {
                                 <AiFillFolderAdd size={30} />
                             </div>
                         </div>
-                        {users.map((user) => (
+                        {users.reverse().map((user) => (
                             <UserBox key={user.id} data={user} />
                         ))}
                     </div>
