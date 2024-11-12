@@ -14,7 +14,7 @@ interface UsersListProps {
 
 const UsersList: React.FC<UsersListProps> = ({ users }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+users = users.reverse()
     useEffect(() => {
         let reloadCount: number = 0;
         reloadCount = reloadCount + 1;
@@ -49,7 +49,7 @@ const UsersList: React.FC<UsersListProps> = ({ users }) => {
                                 <AiFillFolderAdd size={30} />
                             </div>
                         </div>
-                        {users.reverse().map((user) => (
+                        {users.map((user) => (
                             <UserBox key={user.id} data={user} />
                         ))}
                     </div>
