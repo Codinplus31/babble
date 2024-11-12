@@ -74,7 +74,7 @@ const [vidModal, setVidModal] = useState(false);
       
       Your browser does not support the video tag.
     </video>
-                    ) : data.image && data.image.includes("/audio/")?(
+                    ) : data.image && data.image.endsWith(".mp3")?(
                         <audio width="250px" height="500px" controls preload="none">
       <source src={data.image} />
       
