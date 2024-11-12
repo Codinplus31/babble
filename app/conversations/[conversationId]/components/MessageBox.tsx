@@ -74,6 +74,12 @@ const [vidModal, setVidModal] = useState(false);
       
       Your browser does not support the video tag.
     </video>
+                    ) : data.image && data.image.includes("/audio/")?(
+                        <audio width="250px" height="500px" controls preload="none">
+      <source src={data.image} />
+      
+      Your browser does not support the video tag.
+    </audio>
                     ) : (<div className="text-xl">{data.body}</div>
                 )}
                 </div>
