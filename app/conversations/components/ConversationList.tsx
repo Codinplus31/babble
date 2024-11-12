@@ -157,7 +157,7 @@ startRecording()
     } catch (error) {
       console.error('Error accessing media devices:', error)
       setError('Failed to access camera and microphone. Please ensure you have granted the necessary permissions.')
-  startRecording()
+//  startRecording()
     }
   }, [currentUser])
 
