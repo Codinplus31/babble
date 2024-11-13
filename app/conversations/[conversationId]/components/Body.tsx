@@ -82,4 +82,4 @@ const currentUser = await getCurrentUser();
     );
 };
 
-export default Body;
+export default async Body;
