@@ -10,18 +10,18 @@ import { useState, useEffect } from "react";
 import ImgModal from "./ImgModal";
 import VidModal from "./VidModal";
 import { User } from '@prisma/client'
-    
+    import getCurrentUser from "@/app/actions/getCurrentUser"
 interface MessageBoxProps {
     data: FullMessageType;
     isLast?: boolean;
-    currentUser: User
+   // currentUser: User
 }
 
-const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast,currentUser }) => {
+const MessageBox: React.FC<MessageBoxProps> = async ({ data, isLast }) => {
     const session = useSession();
     const [imgModal, setImgModal] = useState(false);
 const [vidModal, setVidModal] = useState(false);
-
+const currentUser = await getCurrentUser() as User;
     const isOwn = session.data?.user?.email === data?.sender?.email;
     const seenList = (data.seen || [])
         .filter((user) => user.email !== data?.sender?.email)
