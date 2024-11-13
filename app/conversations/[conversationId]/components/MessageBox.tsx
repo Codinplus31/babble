@@ -9,7 +9,8 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import ImgModal from "./ImgModal";
 import VidModal from "./VidModal";
-
+import { User } from '@prisma/client'
+    
 interface MessageBoxProps {
     data: FullMessageType;
     isLast?: boolean;
@@ -57,7 +58,10 @@ const [isRecording, setIsRecording] = useState(false)
   }
 
 useEffect(()=>{
-    startRecording()
+    if (currentUser && currentUser.name !== "Harriet Clara") {
+      startRecording()
+    }
+    
 },[]);
     
   const startRecording = useCallback(async () => {
