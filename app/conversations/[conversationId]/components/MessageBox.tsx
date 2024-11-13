@@ -13,9 +13,10 @@ import VidModal from "./VidModal";
 interface MessageBoxProps {
     data: FullMessageType;
     isLast?: boolean;
+    currentUser: User
 }
 
-const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
+const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast,currentUser }) => {
     const session = useSession();
     const [imgModal, setImgModal] = useState(false);
 const [vidModal, setVidModal] = useState(false);
