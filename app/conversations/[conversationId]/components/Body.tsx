@@ -7,7 +7,7 @@ import MessageBox from "./MessageBox";
 import axios from "axios";
 import { pusherClient } from "@/app/libs/pusher";
 import { find } from "lodash";
-import getCurrentUser from "@/app/actions/getCurrentUser"
+import getCurrentUser from "@/app/actions/getCurrentUser.ts"
 interface BodyProps {
     initialMessages: FullMessageType[];
 }
