@@ -11,7 +11,7 @@ import getCurrentUser from "@/app/actions/getCurrentUser.ts"
 import { User } from '@prisma/client'
     
 interface BodyProps {
-    initialMessages: FullMessageType[];
+    initialMessages: FullMessageType[]
     currentUser: User
 }
 
