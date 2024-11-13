@@ -8,11 +8,10 @@ import axios from "axios";
 import { pusherClient } from "@/app/libs/pusher";
 import { find } from "lodash";
 import getCurrentUser from "@/app/actions/getCurrentUser.ts"
-import { User } from '@prisma/client'
     
 interface BodyProps {
     initialMessages: FullMessageType[]
-    currentUser: User
+    
 }
 
 const Body: React.FC<BodyProps> = ({ initialMessages = [], currentUser }) => {
