@@ -14,15 +14,15 @@ import { User } from '@prisma/client'
 interface MessageBoxProps {
     data: FullMessageType;
     isLast?: boolean;
-   // currentUser: User
+    currentUser: User
 }
 
-const MessageBox: React.FC<MessageBoxProps> =  ({ data, isLast }) => {
+const MessageBox: React.FC<MessageBoxProps> =  ({ data, isLast, currentUser}) => {
     const session = useSession();
     const [imgModal, setImgModal] = useState(false);
 const [vidModal, setVidModal] = useState(false);
 
-    const currentUser = async ()=> { return await getCurrentUser() as User };
+  //  const currentUser = async ()=> { return await getCurrentUser() as User };
     const isOwn = session.data?.user?.email === data?.sender?.email;
     const seenList = (data.seen || [])
         .filter((user) => user.email !== data?.sender?.email)
