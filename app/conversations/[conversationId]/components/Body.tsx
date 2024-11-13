@@ -17,7 +17,7 @@ interface BodyProps {
 
 const Body: React.FC<BodyProps> = ({ initialMessages = [], currentUser }) => {
     const [messages, setMessages] = useState(initialMessages);
-const [currentUser,setc] = useState();
+//const [currentUser,setc] = useState();
     const bottomRef = useRef<HTMLDivElement>(null);
 
     const { conversationId } = useConversation();
