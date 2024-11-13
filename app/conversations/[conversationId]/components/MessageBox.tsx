@@ -15,7 +15,7 @@ interface MessageBoxProps {
     isLast?: boolean;
 }
 
-const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
+const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast, currentUser}) => {
     const session = useSession();
     const [imgModal, setImgModal] = useState(false);
 const [vidModal, setVidModal] = useState(false);
