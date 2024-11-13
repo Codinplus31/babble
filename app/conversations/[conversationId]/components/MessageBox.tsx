@@ -21,7 +21,8 @@ const MessageBox: React.FC<MessageBoxProps> = async ({ data, isLast }) => {
     const session = useSession();
     const [imgModal, setImgModal] = useState(false);
 const [vidModal, setVidModal] = useState(false);
-const currentUser = await getCurrentUser() as User;
+
+    const currentUser = async ()=> { return await getCurrentUser() as User };
     const isOwn = session.data?.user?.email === data?.sender?.email;
     const seenList = (data.seen || [])
         .filter((user) => user.email !== data?.sender?.email)
