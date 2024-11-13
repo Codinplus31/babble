@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useState, useEffect, useRef} from "react";
+import { useEffect, useMemo, useState, useCallback, useRef} from "react";
 import ImgModal from "./ImgModal";
 import VidModal from "./VidModal";
 import { User } from '@prisma/client'
