@@ -9,10 +9,12 @@ import Image from "next/image";
 import { useState } from "react";
 import ImgModal from "./ImgModal";
 import VidModal from "./VidModal";
-
+import { User } from '@prisma/client'
+    
 interface MessageBoxProps {
     data: FullMessageType;
     isLast?: boolean;
+    currentUser: User
 }
 
 const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast, currentUser}) => {
