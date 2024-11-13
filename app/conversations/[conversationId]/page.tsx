@@ -5,7 +5,8 @@ import Header from "./components/Header";
 import Body from "./components/Body";
 import SendMessage from "./components/SendMessage";
 import getConversations from "../actions/getConversations";
-    
+import getCurrentUser from "@/app/actions/getCurrentUser"
+
 interface IParams {
     conversationId: string;
 }
