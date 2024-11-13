@@ -30,7 +30,7 @@ const currentUser = await getCurrentUser();
             <div className="lg:pl-80 lg:mt-[-80px] lg:border-l-[0.1px] text-[#d1d3d7] h-full bg-[#1a1f25]">
                 <div className="h-full flex flex-col">
                     <Header conversation={conversation} />
-                    <Body initialMessages={messages} currentUser={User} />
+                    <Body initialMessages={messages} currentUser={currentUser} />
                     <SendMessage />
                 </div>
             </div>
