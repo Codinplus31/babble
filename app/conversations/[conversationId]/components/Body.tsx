@@ -1,4 +1,4 @@
-"use client";
+
 
 import useConversation from "@/app/hooks/useConversation";
 import { FullMessageType } from "@/app/types";
