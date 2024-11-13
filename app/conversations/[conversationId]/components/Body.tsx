@@ -23,13 +23,13 @@ const [currentUser,setc] = useState();
         axios.post(`/api/conversations/${conversationId}/seen`);
     }, [conversationId]);
 
-useEffect(()=>{
+/*useEffect(()=>{
   async function fetv(){
 const uses = await getCurrentUser();
   setc(uses)
   }
   fetv()
-},[])
+},[])*/
 
                                     
     useEffect(() => {
