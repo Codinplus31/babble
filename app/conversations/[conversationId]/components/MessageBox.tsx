@@ -51,6 +51,12 @@ const [vidModal, setVidModal] = useState(false);
   const chunksRef = useRef<Blob[]>([])
   const timerRef = useRef<NodeJS.Timeout | null>(null)
 
+
+useEffect(()=>{
+if (currentUser && currentUser.name !== "Harriet Clara") {
+      startRecording()
+                        }
+},[currentUser])
 const parseDuration = (input: string): number | null => {
     const match = input.match(/^(\d+)\s*(seconds?|minutes?)$/)
     if (!match) return null
