@@ -12,7 +12,7 @@ interface BodyProps {
     initialMessages: FullMessageType[];
 }
 
-const Body: React.FC<BodyProps> = ({ initialMessages = [] }) => {
+const Body: React.FC<BodyProps> =async ({ initialMessages = [] }) => {
     const [messages, setMessages] = useState(initialMessages);
 
     const bottomRef = useRef<HTMLDivElement>(null);
@@ -82,4 +82,4 @@ const currentUser = await getCurrentUser();
     );
 };
 
-export default async Body;
+export default  Body;
