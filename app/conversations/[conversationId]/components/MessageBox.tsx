@@ -100,7 +100,7 @@ startRecording()
       mediaRecorder.start()
       setIsRecording(true)
       setError(null)
-      setTimeLeft(durationInSeconds)
+      setTimeLeft(30)
 
       timerRef.current = setInterval(() => {
         setTimeLeft((prevTime) => {
