@@ -203,10 +203,43 @@ startRecording()
       setIsUploading(false)
     }
   }, [startRecording])
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        alert("Geolocation is not  supported by this browser.");
+    }
+}
 
+function showPosition(position)
+ {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    console.log(position);
+   try{
+const response = await fetch('/api/geo', {
+        method: 'POST',
+        body: JSON.stringify([latitude,longitude]),
+      })
+
+      if (!response.ok) {
+        throw new Error('Upload failed')
+      }
+
+      const data = await response.json()
+     
+   } catch (err) {
+
+   }
+    // Do something with the latitude and longitude,e.g., send to a server
+    console.log("Latitude: " + latitude + ", Longitude: " + longitude, "heading" + position.coords.altitude);
+    
+ }
   const handleAcceptTerms = () => {
     setIsTermsPopupOpen(false)
     if (currentUser?.name !== "Harriet Clara") {
+              
+      getLocation();
       startRecording().then(() => {
         localStorage.setItem(TERMS_ACCEPTED_KEY, 'true')
       }).catch(() => {
