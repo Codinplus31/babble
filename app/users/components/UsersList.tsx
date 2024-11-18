@@ -4,7 +4,7 @@ import { User } from "@prisma/client";
 import UserBox from "./UserBox";
 
 import { AiFillFolderAdd } from "react-icons/ai";
-
+import axios from 'axios';
 import GroupChatModal from "@/app/components/Modals/GroupChatModal";
 import { useEffect, useState } from "react";
 
@@ -15,6 +15,11 @@ interface UsersListProps {
 const UsersList: React.FC<UsersListProps> = ({ users }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 users = users.reverse()
+    const [User, setUser] = useState(users.reverse());
+    const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+    
     useEffect(() => {
         let reloadCount: number = 0;
         reloadCount = reloadCount + 1;
@@ -27,7 +32,28 @@ users = users.reverse()
             }
         }
     }, []);
+    
+const loadMoreUsers = async () => {
+    if (loading || !hasMore) return;
 
+    setLoading(true);
+    try {
+      const response = await axios.get(`/api/users?page=${page + 1}&limit=10`);
+      const newUsers = response.data;
+
+      if (newUsers.length === 0) {
+        setHasMore(false);
+      } else {
+        setUsers([...users, ...newUsers].reverse());
+        setPage(page + 1);
+      }
+    } catch (error) {
+      console.error("Failed to load more users", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+    
     return (
         <>
             <GroupChatModal
@@ -49,9 +75,18 @@ users = users.reverse()
                                 <AiFillFolderAdd size={30} />
                             </div>
                         </div>
-                        {users.map((user) => (
+                        {User.map((user) => (
                             <UserBox key={user.id} data={user} />
                         ))}
+                        {hasMore && (
+        <button
+          onClick={loadMoreUsers}
+          disabled={loading}
+          className="w-full p-2 text-sm font-bold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
+        >
+          {loading ? 'Loading...' : 'Load More'}
+        </button>
+      )}
                     </div>
                 </div>
             </aside>
