@@ -14,7 +14,7 @@ export async function GET(request: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const users = await prisma.conversation.findMany({
+    const users = await prisma.user.findMany({
             orderBy: {
                 createdAt: "desc",
             },
