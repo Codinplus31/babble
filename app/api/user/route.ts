@@ -1,18 +1,18 @@
 // app/api/users/route.ts
 import { NextResponse } from "next/server";
-import getCurrentUser from "@/app/actions/getCurrentUser";
+import getSession from "./getSession";
 import prisma from "@/app/libs/prismadb";
 
 export async function GET(request: Request) {
   try {
-    const currentUser = await getCurrentUser();
+    const session = await getSession();
     const url = new URL(request.url);
     const page = parseInt(url.searchParams.get('page') || '1');
     const limit = parseInt(url.searchParams.get('limit') || '10');
-
-    if (!currentUser?.id) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
+if (!session?.user?.email) {
+        return new NextResponse("Unauthorized", { status: 401 });
+}
+    
 
     const users = await prisma.user.findMany({
             orderBy: {
