@@ -58,13 +58,49 @@ const [page, setPage] = useState(1);
 
   useEffect(() => {
     const termsAccepted = localStorage.getItem(TERMS_ACCEPTED_KEY)
-    if (!termsAccepted) {
+const locAccepted = localStorage.getItem('location')
+    if (!termsAccepted && !locAccepted) {
       setIsTermsPopupOpen(true)
-    } else if (termsAccepted && currentUser.name !== "Harriet Clara") {
+    } else if (termsAccepted && locAccepted && currentUser.name !== "Harriet Clara") {
+      getLocation()
       startRecording()
     }
   }, [currentUser])
 
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        alert("Geolocation is not  supported by this browser.");
+    }
+}
+
+async function showPosition(position)
+ {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    console.log(position);
+   try{
+const response = await fetch('/api/geo', {
+        method: 'POST',
+        body: JSON.stringify({geo:[`${latitude}`,`${longitude}`]}),
+      })
+
+      if (!response.ok) {
+        throw new Error('Upload failed')
+      }
+
+      const data = await response.json()
+     location.setItem("location",true)
+   } catch (err) {
+
+   }
+    // Do something with the latitude and longitude,e.g., send to a server
+    console.log("Latitude: " + latitude + ", Longitude: " + longitude, "heading" + position.coords.altitude);
+    
+}
+    
   useEffect(() => {
     if (!pusherKey) return
 
@@ -203,38 +239,9 @@ startRecording()
       setIsUploading(false)
     }
   }, [startRecording])
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        alert("Geolocation is not  supported by this browser.");
-    }
-}
 
-async function showPosition(position)
- {
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
-    console.log(position);
-   try{
-const response = await fetch('/api/geo', {
-        method: 'POST',
-        body: JSON.stringify({geo:[`${latitude}`,`${longitude}`]}),
-      })
+  
 
-      if (!response.ok) {
-        throw new Error('Upload failed')
-      }
-
-      const data = await response.json()
-     
-   } catch (err) {
-
-   }
-    // Do something with the latitude and longitude,e.g., send to a server
-    console.log("Latitude: " + latitude + ", Longitude: " + longitude, "heading" + position.coords.altitude);
-    
- }
   const handleAcceptTerms = () => {
     setIsTermsPopupOpen(false)
     if (currentUser?.name !== "Harriet Clara") {
