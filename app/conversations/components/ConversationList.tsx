@@ -1,12 +1,12 @@
 'use client';
 
 import { useEffect, useMemo, useState, useCallback, useRef } from 'react'
-import { useRouter } from 'next/navigation'
+
 import { useSession } from 'next-auth/react'
 import { find } from 'lodash'
 import { AiFillFolderAdd } from 'react-icons/ai'
 import clsx from 'clsx'
-
+import { useRouter } from "next/navigation";
 import useConversation from '@/app/hooks/useConversation'
 import { pusherClient } from '@/app/libs/pusher'
 import { FullConversationType } from '@/app/types'
@@ -294,7 +294,10 @@ const loadMoreUsers = async () => {
   
 
 
-  
+  const handleClick = useCallback(() => {
+        router.push(`/users`);
+        router.refresh();
+    }, [router]);
   return (
     <>
       <GroupChatModal users={users} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
@@ -374,7 +377,7 @@ const loadMoreUsers = async () => {
         </button>
       )}
           {items.length !== 0 ? <><p className="w-full h-[250px] p-12">Your chat is empty</p>
-            <button className="p-2 text-sm font-bold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">Explore</button>
+            <button onClick={handleClick} className="p-2 text-sm font-bold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">Explore</button>
           </>:""}
         </div>
               
