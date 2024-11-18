@@ -2,7 +2,8 @@ import prisma from "@/app/libs/prismadb";
 
 import getCurrentUser from "./getCurrentUser";
 
-const getConversations = async () => {
+const getConversations = async (page: number = 1, limit: number = 10) => {
+    const skip = (page - 1) * limit;
     const currentUser = await getCurrentUser();
 
     if (!currentUser?.id) {
@@ -14,6 +15,8 @@ const getConversations = async () => {
             orderBy: {
                 lastMessageAt: "desc",
             },
+            take: limit,
+            skip: skip,
             where: {
                 userIds: {
                     has: currentUser.id,
@@ -22,6 +25,10 @@ const getConversations = async () => {
             include: {
                 users: true,
                 messages: {
+                    orderBy: {
+                        createdAt: 'desc'
+                    },
+                    take: 1,
                     include: {
                         sender: true,
                         seen: true,

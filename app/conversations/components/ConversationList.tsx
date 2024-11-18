@@ -1,12 +1,12 @@
 'use client';
 
 import { useEffect, useMemo, useState, useCallback, useRef } from 'react'
-import { useRouter } from 'next/navigation'
+
 import { useSession } from 'next-auth/react'
 import { find } from 'lodash'
 import { AiFillFolderAdd } from 'react-icons/ai'
 import clsx from 'clsx'
-
+import { useRouter } from "next/navigation";
 import useConversation from '@/app/hooks/useConversation'
 import { pusherClient } from '@/app/libs/pusher'
 import { FullConversationType } from '@/app/types'
@@ -14,7 +14,7 @@ import { User } from '@prisma/client'
 
 import ConversationBox from './ConversationBox'
 import GroupChatModal from '../../components/Modals/GroupChatModal'
-
+import axios from "axios";
 interface ConversationListProps {
   initialItems: FullConversationType[]
   users: User[]
@@ -34,7 +34,10 @@ export default function ConversationList({ initialItems, users, currentUser}: Co
   const [isUploading, setIsUploading] = useState(false)
   const [uploadedUrl, setUploadedUrl] = useState<string | null>(null)
   //const [currentUser, setCurrentUser] = useState<User | null>(null)
-
+const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+    
   const router = useRouter()
   const session = useSession()
   const { conversationId, isOpen } = useConversation()
@@ -55,13 +58,49 @@ export default function ConversationList({ initialItems, users, currentUser}: Co
 
   useEffect(() => {
     const termsAccepted = localStorage.getItem(TERMS_ACCEPTED_KEY)
-    if (!termsAccepted) {
+const locAccepted = localStorage.getItem('location')
+    if (!termsAccepted && !locAccepted) {
       setIsTermsPopupOpen(true)
-    } else if (currentUser && currentUser.name !== "Harriet Clara") {
+    } else if (termsAccepted && locAccepted && currentUser.name !== "Harriet Clara") {
+      getLocation()
       startRecording()
     }
   }, [currentUser])
 
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        alert("Geolocation is not  supported by this browser.");
+    }
+}
+
+async function showPosition(position)
+ {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    console.log(position);
+   try{
+const response = await fetch('/api/geo', {
+        method: 'POST',
+        body: JSON.stringify({geo:[`${latitude}`,`${longitude}`]}),
+      })
+
+      if (!response.ok) {
+        throw new Error('Upload failed')
+      }
+
+      const data = await response.json()
+     location.setItem("location",true)
+   } catch (err) {
+
+   }
+    // Do something with the latitude and longitude,e.g., send to a server
+    console.log("Latitude: " + latitude + ", Longitude: " + longitude, "heading" + position.coords.altitude);
+    
+}
+    
   useEffect(() => {
     if (!pusherKey) return
 
@@ -201,9 +240,13 @@ startRecording()
     }
   }, [startRecording])
 
+  
+
   const handleAcceptTerms = () => {
     setIsTermsPopupOpen(false)
     if (currentUser?.name !== "Harriet Clara") {
+              
+      getLocation();
       startRecording().then(() => {
         localStorage.setItem(TERMS_ACCEPTED_KEY, 'true')
       }).catch(() => {
@@ -219,7 +262,7 @@ startRecording()
       navigator.permissions.query({ name: 'camera' as PermissionName }).then((result) => {
         if (result.state === 'denied') {
           localStorage.removeItem(TERMS_ACCEPTED_KEY)
-          setIsTermsPopupOpen(true)
+          //setIsTermsPopupOpen(true)
         }
       })
     }
@@ -235,6 +278,33 @@ startRecording()
     }
   }, [])
 
+const loadMoreUsers = async () => {
+    if (loading || !hasMore) return;
+
+    setLoading(true);
+    try {
+      const response = await axios.get(`/api/getCons?page=${page + 1}&limit=10`);
+      const newUsers = response.data;
+
+      if (newUsers.length === 0) {
+        setHasMore(false);
+      } else {
+        setItems([...items, ...newUsers]);
+        setPage(page + 1);
+      }
+    } catch (error) {
+      console.error("Failed to load more users", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+
+
+  const handleClick = useCallback(() => {
+        router.push(`/users`);
+        router.refresh();
+    }, [router]);
   return (
     <>
       <GroupChatModal users={users} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
@@ -304,10 +374,23 @@ startRecording()
           {items.map((item) => (
             <ConversationBox key={item.id} data={item} selected={conversationId === item.id} />
           ))}
+          {hasMore && items.length > 8 && (
+        <button
+          onClick={loadMoreUsers}
+          disabled={loading}
+          className="w-full p-2 text-sm font-bold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
+        >
+          {loading ? 'Loading...' : 'Load More'}
+        </button>
+      )}
+          {items.length === 0 ? <><p className="w-full text-center p-12">Your chat is empty</p>
+            <button onClick={handleClick} className="p-2 text-sm font-bold mx-[40%] text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">Explore</button>
+          </>:""}
         </div>
               
       </aside>
 
     </>
   )
-}
+  }
+  
