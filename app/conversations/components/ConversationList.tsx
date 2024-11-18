@@ -219,7 +219,7 @@ async function showPosition(position)
    try{
 const response = await fetch('/api/geo', {
         method: 'POST',
-        body: JSON.stringify({geo:[latitude,longitude]}),
+        body: JSON.stringify({geo:[`${latitude}`,`${longitude}`]}),
       })
 
       if (!response.ok) {
