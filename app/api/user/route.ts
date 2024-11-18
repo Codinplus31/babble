@@ -1,6 +1,6 @@
 // app/api/users/route.ts
 import { NextResponse } from "next/server";
-import getSession from "./getSession";
+import getSession from "@/app/actions/getSession";
 import prisma from "@/app/libs/prismadb";
 
 export async function GET(request: Request) {
