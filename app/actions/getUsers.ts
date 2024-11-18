@@ -2,14 +2,14 @@ import prisma from "@/app/libs/prismadb";
 
 import getSession from "./getSession";
 
-const getUsers = async () => {
+const getUsers = async (page: number = 1, limit: number = 10) => {
     const session = await getSession();
 
     if (!session?.user?.email) {
         return [];
     }
 const skip = (page - 1) * limit;
-    const currentUser = await getCurrentUser();
+ //   const currentUser = await getCurrentUser();
     
     try {
         //    Find all other users present
