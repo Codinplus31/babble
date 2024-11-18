@@ -8,7 +8,7 @@ export async function GET(request: Request) {
     const session = await getSession();
     const url = new URL(request.url);
     const page = parseInt(url.searchParams.get('page') || '1');
-    const limit = parseInt(url.searchParams.get('limit') || '10');
+    const limit = parseInt(url.searchParams.get('limit') || '20');
 if (!session?.user?.email) {
         return new NextResponse("Unauthorized", { status: 401 });
 }
