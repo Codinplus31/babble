@@ -376,7 +376,7 @@ const loadMoreUsers = async () => {
           {loading ? 'Loading...' : 'Load More'}
         </button>
       )}
-          {items.length !== 0 ? <><p className="w-full h-[250px] p-12">Your chat is empty</p>
+          {items.length === 0 ? <><p className="w-full h-[250px] p-12">Your chat is empty</p>
             <button onClick={handleClick} className="p-2 text-sm font-bold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">Explore</button>
           </>:""}
         </div>
