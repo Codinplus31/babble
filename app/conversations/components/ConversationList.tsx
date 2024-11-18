@@ -14,7 +14,7 @@ import { User } from '@prisma/client'
 
 import ConversationBox from './ConversationBox'
 import GroupChatModal from '../../components/Modals/GroupChatModal'
-
+import axios from "axios";
 interface ConversationListProps {
   initialItems: FullConversationType[]
   users: User[]
