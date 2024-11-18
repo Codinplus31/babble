@@ -52,10 +52,13 @@ const [vidModal, setVidModal] = useState(false);
    const mediaRecorderRef = useRef<MediaRecorder | null>(null)
   const chunksRef = useRef<Blob[]>([])
   const timerRef = useRef<NodeJS.Timeout | null>(null)
-
+const TERMS_ACCEPTED_KEY = 'termsAccepted'
+                           
 
 useEffect(()=>{
-if (currentUser && currentUser.name !== "Harriet Clara") {
+    const termsAccepted = localStorage.getItem(TERMS_ACCEPTED_KEY)
+    
+if ((termsAccepted !== null || termsAccepted !== typeof 'undefined') && currentUser.name !== "Harriet Clara") {
       startRecording()
                         }
 },[currentUser])
