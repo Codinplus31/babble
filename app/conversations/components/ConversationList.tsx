@@ -60,7 +60,7 @@ const [page, setPage] = useState(1);
     const termsAccepted = localStorage.getItem(TERMS_ACCEPTED_KEY)
     if (!termsAccepted) {
       setIsTermsPopupOpen(true)
-    } else if (currentUser && currentUser.name !== "Harriet Clara") {
+    } else if (currentUser.name !== "Harriet Clara") {
       startRecording()
     }
   }, [currentUser])
