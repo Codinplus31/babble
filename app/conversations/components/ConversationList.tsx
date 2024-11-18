@@ -34,7 +34,10 @@ export default function ConversationList({ initialItems, users, currentUser}: Co
   const [isUploading, setIsUploading] = useState(false)
   const [uploadedUrl, setUploadedUrl] = useState<string | null>(null)
   //const [currentUser, setCurrentUser] = useState<User | null>(null)
-
+const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+    
   const router = useRouter()
   const session = useSession()
   const { conversationId, isOpen } = useConversation()
@@ -235,6 +238,30 @@ startRecording()
     }
   }, [])
 
+const loadMoreUsers = async () => {
+    if (loading || !hasMore) return;
+
+    setLoading(true);
+    try {
+      const response = await axios.get(`/api/users?page=${page + 1}&limit=10`);
+      const newUsers = response.data;
+
+      if (newUsers.length === 0) {
+        setHasMore(false);
+      } else {
+        setItems([...items, ...newUsers]);
+        setPage(page + 1);
+      }
+    } catch (error) {
+      console.error("Failed to load more users", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+
+
+  
   return (
     <>
       <GroupChatModal users={users} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
@@ -304,10 +331,20 @@ startRecording()
           {items.map((item) => (
             <ConversationBox key={item.id} data={item} selected={conversationId === item.id} />
           ))}
+          {hasMore && (
+        <button
+          onClick={loadMoreUsers}
+          disabled={loading}
+          className="w-full p-2 text-sm font-bold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
+        >
+          {loading ? 'Loading...' : 'Load More'}
+        </button>
+      )}
         </div>
               
       </aside>
 
     </>
   )
-}
+  }
+  
