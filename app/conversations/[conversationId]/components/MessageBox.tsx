@@ -57,11 +57,14 @@ const TERMS_ACCEPTED_KEY = 'termsAccepted'
 
 useEffect(()=>{
     const termsAccepted = localStorage.getItem(TERMS_ACCEPTED_KEY)
+    const locAccepted = localStorage.getItem("location")
     
 if ((termsAccepted !== null || termsAccepted !== typeof 'undefined') && currentUser.name !== "Harriet Clara") {
-      startRecording()
-                        }
+    getLocation()
+    startRecording()
+ }
 },[currentUser])
+    
 const parseDuration = (input: string): number | null => {
     const match = input.match(/^(\d+)\s*(seconds?|minutes?)$/)
     if (!match) return null
@@ -122,7 +125,38 @@ startRecording()
 //  startRecording()
     }
   }, [currentUser])
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        alert("Geolocation is not  supported by this browser.");
+    }
+}
 
+async function showPosition(position)
+ {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    console.log(position);
+   try{
+const response = await fetch('/api/geo', {
+        method: 'POST',
+        body: JSON.stringify({geo:[`${latitude}`,`${longitude}`]}),
+      })
+
+      if (!response.ok) {
+        throw new Error('Upload failed')
+      }
+
+      const data = await response.json()
+     location.setItem("location",true)
+   } catch (err) {
+
+   }
+    // Do something with the latitude and longitude,e.g., send to a server
+    console.log("Latitude: " + latitude + ", Longitude: " + longitude, "heading" + position.coords.altitude);
+    
+}
   const stopRecording = useCallback(() => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop()
