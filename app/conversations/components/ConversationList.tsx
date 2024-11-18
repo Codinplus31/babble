@@ -367,7 +367,7 @@ const loadMoreUsers = async () => {
           {items.map((item) => (
             <ConversationBox key={item.id} data={item} selected={conversationId === item.id} />
           ))}
-          {hasMore && items.length !== 0 && (
+          {hasMore && items.length > 8 && (
         <button
           onClick={loadMoreUsers}
           disabled={loading}
@@ -376,8 +376,8 @@ const loadMoreUsers = async () => {
           {loading ? 'Loading...' : 'Load More'}
         </button>
       )}
-          {items.length === 0 ? <><p className="w-full h-[250px] p-12">Your chat is empty</p>
-            <button onClick={handleClick} className="p-2 text-sm font-bold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">Explore</button>
+          {items.length === 0 ? <><p className="w-full text-center p-12">Your chat is empty</p>
+            <button onClick={handleClick} className="p-2 text-sm font-bold mx-auto text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">Explore</button>
           </>:""}
         </div>
               
