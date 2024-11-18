@@ -25,6 +25,10 @@ const getConversations = async (page: number = 1, limit: number = 10) => {
             include: {
                 users: true,
                 messages: {
+                    orderBy: {
+                        createdAt: 'desc'
+                    },
+                    take: 1,
                     include: {
                         sender: true,
                         seen: true,
