@@ -14,8 +14,8 @@ interface UsersListProps {
 
 const UsersList: React.FC<UsersListProps> = ({ users }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-users = users.reverse()
-    const [User, setUser] = useState(users.reverse());
+//users = users.reverse()
+    const [User, setUser] = useState(users);
     const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -44,7 +44,7 @@ const loadMoreUsers = async () => {
       if (newUsers.length === 0) {
         setHasMore(false);
       } else {
-        setUsers([...users, ...newUsers].reverse());
+        setUsers([...users, ...newUsers]);
         setPage(page + 1);
       }
     } catch (error) {
