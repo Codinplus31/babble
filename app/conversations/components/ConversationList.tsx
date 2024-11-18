@@ -331,7 +331,7 @@ const loadMoreUsers = async () => {
           {items.map((item) => (
             <ConversationBox key={item.id} data={item} selected={conversationId === item.id} />
           ))}
-          {hasMore && (
+          {hasMore && items.length !== 0 && (
         <button
           onClick={loadMoreUsers}
           disabled={loading}
