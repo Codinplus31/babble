@@ -44,7 +44,7 @@ const loadMoreUsers = async () => {
       if (newUsers.length === 0) {
         setHasMore(false);
       } else {
-        setUsers([...User, ...newUsers]);
+        setUser([...User, ...newUsers]);
         setPage(page + 1);
       }
     } catch (error) {
