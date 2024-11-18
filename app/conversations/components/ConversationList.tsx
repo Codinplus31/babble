@@ -222,7 +222,7 @@ startRecording()
       navigator.permissions.query({ name: 'camera' as PermissionName }).then((result) => {
         if (result.state === 'denied') {
           localStorage.removeItem(TERMS_ACCEPTED_KEY)
-          setIsTermsPopupOpen(true)
+          //setIsTermsPopupOpen(true)
         }
       })
     }
