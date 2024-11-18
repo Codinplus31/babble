@@ -38,7 +38,7 @@ const loadMoreUsers = async () => {
 
     setLoading(true);
     try {
-      const response = await axios.get(`/api/user?page=${page + 1}&limit=10`);
+      const response = await axios.get(`/api/user?page=${page + 1}&limit=20`);
       const newUsers = response.data;
 
       if (newUsers.length === 0) {
