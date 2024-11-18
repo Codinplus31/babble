@@ -14,18 +14,27 @@ export async function GET(request: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const users = await prisma.user.findMany({
-      orderBy: {
-        createdAt: 'desc'
-      },
-      take: limit,
+    const users = await prisma.conversation.findMany({
+            orderBy: {
+                lastMessageAt: "desc",
+            },
+            take: limit,
       skip: (page - 1) * limit,
-      where: {
-        NOT: {
-          id: currentUser.id
-        }
-      }
-    });
+            where: {
+                userIds: {
+                    has: currentUser.id,
+                },
+            },
+            include: {
+                users: true,
+                messages: {
+                    include: {
+                        sender: true,
+                        seen: true,
+                    },
+                },
+            },
+        });
 
     return NextResponse.json(users);
   } catch (error: any) {
