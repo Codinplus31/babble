@@ -16,7 +16,7 @@ const getConversations = async (page: number = 1, limit: number = 10) => {
                 lastMessageAt: "desc",
             },
             take: limit,
-            skip: skip
+            skip: skip,
             where: {
                 userIds: {
                     has: currentUser.id,
