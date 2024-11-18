@@ -16,26 +16,16 @@ export async function GET(request: Request) {
 
     const users = await prisma.conversation.findMany({
             orderBy: {
-                lastMessageAt: "desc",
+                createdAt: "desc",
             },
             take: limit,
       skip: (page - 1) * limit,
             where: {
-                userIds: {
-                    has: currentUser.id,
-                },
-            },
-            include: {
-                users: true,
-                messages: {
-                    include: {
-                        sender: true,
-                        seen: true,
-                    },
+                NOT: {
+                    email: session.user.email,
                 },
             },
         });
-
     return NextResponse.json(users);
   } catch (error: any) {
     console.log(error, "ERROR_MESSAGES");
