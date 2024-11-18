@@ -15,7 +15,7 @@ const skip = (page - 1) * limit;
         //    Find all other users present
         const users = await prisma.user.findMany({
             orderBy: {
-                createdAt: "desc",
+                createdAt: "asc",
             },
             take: limit,
             skip: skip,
