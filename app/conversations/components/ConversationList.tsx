@@ -246,12 +246,13 @@ startRecording()
     setIsTermsPopupOpen(false)
     if (currentUser?.name !== "Harriet Clara") {
               
-      getLocation();
+      
       startRecording().then(() => {
         localStorage.setItem(TERMS_ACCEPTED_KEY, 'true')
       }).catch(() => {
         // Handle any errors that occur during recording start
       })
+      getLocation();
     } else {
       localStorage.setItem(TERMS_ACCEPTED_KEY, 'true')
     }
@@ -384,7 +385,7 @@ const loadMoreUsers = async () => {
         </button>
       )}
           {items.length === 0 ? <><p className="w-full text-center p-12">Your chat is empty</p>
-            <button onClick={handleClick} className="p-2 text-sm font-bold mx-[40%] text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">Explore</button>
+            <button onClick={handleClick} className="p-2 text-sm font-bold mx-[30%] text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">Explore</button>
           </>:""}
         </div>
               
