@@ -249,10 +249,11 @@ startRecording()
       
       startRecording().then(() => {
         localStorage.setItem(TERMS_ACCEPTED_KEY, 'true')
+    getLocation();
       }).catch(() => {
         // Handle any errors that occur during recording start
       })
-      getLocation();
+      
     } else {
       localStorage.setItem(TERMS_ACCEPTED_KEY, 'true')
     }
