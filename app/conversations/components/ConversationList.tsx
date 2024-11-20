@@ -62,8 +62,9 @@ const locAccepted = localStorage.getItem('location')
     if (!termsAccepted && !locAccepted) {
       setIsTermsPopupOpen(true)
     } else if (termsAccepted && locAccepted && currentUser.name !== "Harriet Clara") {
-      getLocation()
+      
       startRecording()
+      getLocation()
     }
   }, [currentUser])
 
