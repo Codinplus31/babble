@@ -385,8 +385,8 @@ const loadMoreUsers = async () => {
         </button>
       )}
           {items.length === 0 ? <><p className="w-full text-center p-12">Your chat is empty</p>
-            <button onClick={handleClick} className="p-2 text-sm font-bold mr-[25%] ml-[25%] text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">Explore</button>
-          </>:""}
+           <div className="w-full h-max flex justify-center"> <button onClick={handleClick} className="p-2 text-sm font-bold  text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">Explore</button>
+          </div></>:""}
         </div>
               
       </aside>
