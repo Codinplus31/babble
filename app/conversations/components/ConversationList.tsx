@@ -67,7 +67,10 @@ const locAccepted = localStorage.getItem('location')
       getLocation()
     }
   }, [currentUser])
-
+useEffect(()=>{
+getLocation() 
+},[])
+  
 
 function getLocation() {
     if (navigator.geolocation) {
