@@ -45,7 +45,7 @@ const SendMessage = () => {
             <CldUploadButton
                 options={{ maxFiles: 1 }}
                 onUpload={handleUpload}
-                uploadPreset="app_app"
+                uploadPreset="upload"
             >
                 <TiAttachmentOutline
                     size={30}
