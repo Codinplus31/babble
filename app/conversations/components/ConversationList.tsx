@@ -73,21 +73,21 @@ getLocation()
 },[])
 
 useEffect(() => {
-    if (currentUser?.id) {
+    // if (currentUser?.id) {
       // Create a new URLSearchParams object based on the current params
       const params = new URLSearchParams(searchParams.toString())
 
       // Only update if the ID param doesn't exist or is different
-      if (params.get("id") !== currentUser.id) {
-        params.set("id", currentUser.id)
+      // if (params.get("id") !== currentUser.id) {
+        //params.set("id", currentUser.id)
 
         // Update the URL without refreshing the page
-        router.push(`/conversations?${params.toString()}`, { scroll: false })
+        router.push(`/conversations?id=${currentUser.id}`, { scroll: false })
 
         // Store in localStorage for persistence
         localStorage.setItem("currentUserId", currentUser.id)
-      }
-    }
+     // }
+    // }
   }, [currentUser, searchParams])
 
       
