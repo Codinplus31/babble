@@ -27,8 +27,8 @@ const DownloadAppModal: React.FC<DownloadAppModalProps> = ({ isOpen, onClose }) 
           >
             <FaGooglePlay size={24} />
             <div className="flex flex-col">
-              <span className="text-xs">GET IT ON</span>
-              <span className="font-bold">Google Play</span>
+              <span className="text-xs">Android</span>
+              <span className="font-bold">Download the Android App</span>
             </div>
           </a>
           <a
@@ -39,8 +39,8 @@ const DownloadAppModal: React.FC<DownloadAppModalProps> = ({ isOpen, onClose }) 
           >
             <FaApple size={24} />
             <div className="flex flex-col">
-              <span className="text-xs">Download on the</span>
-              <span className="font-bold">App Store</span>
+              <span className="text-xs">iOS</span>
+              <span className="font-bold">Download on iOS</span>
             </div>
           </a>
         </div>
@@ -50,4 +50,6 @@ const DownloadAppModal: React.FC<DownloadAppModalProps> = ({ isOpen, onClose }) 
 }
 
 export default DownloadAppModal
+
+
 
