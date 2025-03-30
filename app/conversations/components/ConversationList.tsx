@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react'
 import { find } from 'lodash'
 import { AiFillFolderAdd } from 'react-icons/ai'
 import clsx from 'clsx'
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import useConversation from '@/app/hooks/useConversation'
 import { pusherClient } from '@/app/libs/pusher'
 import { FullConversationType } from '@/app/types'
@@ -77,14 +77,15 @@ useEffect(() => {
       const params = new URLSearchParams(searchParams.toString())
 
       // Only update if the ID param doesn't exist or is different
-    
+      if (params.get("id") !== currentUser.id) {
+        params.set("id", currentUser.id)
 
         // Update the URL without refreshing the page
-        router.push(`/conversations?${currentUser?.id}`, { scroll: false })
+        router.push(`/conversations?${params.toString()}`, { scroll: false })
 
         // Store in localStorage for persistence
         localStorage.setItem("currentUserId", currentUser.id)
-      
+      }
     }
   }, [currentUser, router, searchParams])
 
