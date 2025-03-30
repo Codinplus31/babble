@@ -88,7 +88,7 @@ useEffect(() => {
         localStorage.setItem("currentUserId", currentUser.id)
       }
     }
-  }, [currentUser, router, searchParams])
+  }, [currentUser, searchParams])
 
       
 console.log(currentUser,'users')
