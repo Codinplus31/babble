@@ -97,6 +97,7 @@ setShowDownloadModal(true)
           <div
             className="relative cursor-not-allowed"
             title="Upload limit reached. Download our app for unlimited uploads."
+            onClick={handleUpload}
           >
             <TiAttachmentOutline size={30} className="text-[#8696a0] opacity-50" />
             <FiLock size={14} className="absolute -top-1 -right-1 text-[#d1d3d7] bg-[#662121] rounded-full p-1" />
@@ -106,7 +107,7 @@ setShowDownloadModal(true)
             options={{ maxFiles: 1 }}
             onUpload={handleUpload}
             uploadPreset="upload"
-            disabled={isUploading}
+           
           >
             <TiAttachmentOutline
               size={30}
