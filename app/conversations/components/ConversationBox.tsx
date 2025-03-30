@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useCallback, useMemo } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { format } from "date-fns"
 import { useSession } from "next-auth/react"
 import clsx from "clsx"
@@ -21,21 +21,13 @@ interface ConversationBoxProps {
 const ConversationBox: React.FC<ConversationBoxProps> = ({ data, selected }) => {
   const otherUser = useOtherUser(data)
   const session = useSession()
+
   const router = useRouter()
-  const searchParams = useSearchParams()
 
   const handleClick = useCallback(() => {
-    // Get the current user ID from the URL
-    const userId = searchParams.get("id")
-
-    // Construct the new URL with both the conversation ID and user ID
-    let url = `/conversations/${data.id}`
-    if (userId) {
-      url += `?id=${userId}`
-    }
-
-    router.push(url)
-  }, [router, data.id, searchParams])
+    router.push(`/conversations/${data.id}`)
+    router.refresh()
+  }, [router, data])
 
   const lastMessage = useMemo(() => {
     const messages = data.messages || []
