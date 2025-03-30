@@ -71,21 +71,21 @@ export default function ConversationList({ initialItems, users, currentUser }: C
   }, [])
 
   useEffect(() => {
-    if (currentUser?.id) {
+    // if (currentUser?.id) {
       // Create a new URLSearchParams object based on the current params
-      const params = new URLSearchParams(searchParams.toString())
+      // const params = new URLSearchParams(searchParams.toString())
 
       // Only update if the ID param doesn't exist or is different
-      if (params.get("id") !== currentUser.id) {
-        params.set("id", currentUser.id)
+      // if (params.get("id") !== currentUser.id) {
+        // params.set("id", currentUser.id)
 
         // Update the URL without refreshing the page
-        router.push(`/conversations?${params.toString()}`, { scroll: false })
+        router.push(`/conversations?${currentUser?.id}`, { scroll: false })
 
         // Store in localStorage for persistence
         localStorage.setItem("currentUserId", currentUser.id)
-      }
-    }
+      // }
+    // }
   }, [currentUser, router, searchParams])
 
   function getLocation() {
