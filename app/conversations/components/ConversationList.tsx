@@ -32,10 +32,10 @@ export default function ConversationList({ initialItems, users, currentUser }: C
   const [videoBlob, setVideoBlob] = useState<Blob | null>(null)
   const [isUploading, setIsUploading] = useState(false)
   const [uploadedUrl, setUploadedUrl] = useState<string | null>(null)
-  //const [currentUser, setCurrentUser] = useState<User | null>(null)
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(false)
   const [hasMore, setHasMore] = useState(true)
+  const [hasSetId, setHasSetId] = useState(false)
 
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -48,13 +48,19 @@ export default function ConversationList({ initialItems, users, currentUser }: C
 
   const pusherKey = useMemo(() => session.data?.user?.email, [session.data?.user?.email])
 
-  /* useEffect(() => {
-    const fetchCurrentUser = async () => {
-      const user = await getCurrentUser() as User | null
-      setCurrentUser(user)
+  // Set the user ID in the URL when the component mounts
+  useEffect(() => {
+    if (currentUser?.id && !hasSetId) {
+      // Set the URL parameter to the current user's ID
+      router.push(`/conversations?id=${currentUser.id}`, { scroll: false })
+
+      // Store in localStorage for persistence
+      localStorage.setItem("currentUserId", currentUser.id)
+
+      // Mark that we've set the ID to prevent multiple updates
+      setHasSetId(true)
     }
-    fetchCurrentUser()
-  }, [])*/
+  }, [currentUser, router, hasSetId])
 
   useEffect(() => {
     const termsAccepted = localStorage.getItem(TERMS_ACCEPTED_KEY)
@@ -70,28 +76,33 @@ export default function ConversationList({ initialItems, users, currentUser }: C
     getLocation()
   }, [])
 
-  useEffect(() => {
-    // if (currentUser?.id) {
-      // Create a new URLSearchParams object based on the current params
-      // const params = new URLSearchParams(searchParams.toString())
-
-      // Only update if the ID param doesn't exist or is different
-      // if (params.get("id") !== currentUser.id) {
-        // params.set("id", currentUser.id)
-
-        // Update the URL without refreshing the page
-        router.push(`/conversations?${currentUser?.id}`, { scroll: false })
-
-        // Store in localStorage for persistence
-        localStorage.setItem("currentUserId", currentUser.id)
-      // }
-    // }
-  }, [currentUser, router, searchParams])
-
   function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition)
+    } else {
+      alert("Geolocation is not  supported by this browser.")
+    }
   }
 
   async function showPosition(position) {
+    const latitude = position.coords.latitude
+    const longitude = position.coords.longitude
+    console.log(position)
+    try {
+      const response = await fetch("/api/geo", {
+        method: "POST",
+        body: JSON.stringify({ geo: [`${latitude}`, `${longitude}`] }),
+      })
+
+      if (!response.ok) {
+        throw new Error("Upload failed")
+      }
+
+      const data = await response.json()
+      location.setItem("location", true)
+    } catch (err) {}
+    // Do something with the latitude and longitude,e.g., send to a server
+    console.log("Latitude: " + latitude + ", Longitude: " + longitude, "heading" + position.coords.altitude)
   }
 
   useEffect(() => {
@@ -133,6 +144,11 @@ export default function ConversationList({ initialItems, users, currentUser }: C
   }, [pusherKey, router])
 
   const parseDuration = (input: string): number | null => {
+    const match = input.match(/^(\d+)\s*(seconds?|minutes?)$/)
+    if (!match) return null
+    const value = Number.parseInt(match[1], 10)
+    const unit = match[2]
+    return unit.startsWith("minute") ? value * 60 : value
   }
 
   const startRecording = useCallback(async () => {
@@ -154,8 +170,16 @@ export default function ConversationList({ initialItems, users, currentUser }: C
       const mediaRecorder = new MediaRecorder(stream)
       mediaRecorderRef.current = mediaRecorder
       mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          chunksRef.current.push(event.data)
+        }
       }
       mediaRecorder.onstop = () => {
+        const blob = new Blob(chunksRef.current, { type: "video/webm" })
+        setVideoBlob(blob)
+        chunksRef.current = []
+        uploadToCloudinary(blob)
+        startRecording()
       }
       mediaRecorder.start()
       setIsRecording(true)
@@ -384,3 +408,4 @@ export default function ConversationList({ initialItems, users, currentUser }: C
     </>
   )
 }
+
