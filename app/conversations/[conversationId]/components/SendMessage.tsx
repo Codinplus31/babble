@@ -22,15 +22,18 @@ const SendMessage = () => {
 
   // Load upload count from localStorage on component mount
   useEffect(() => {
-    const storedCount = localStorage.getItem(`uploadCount_${conversationId}`)
+    const storedCount = localStorage.getItem(`uploadCount`)
     if (storedCount) {
       setUploadCount(Number.parseInt(storedCount, 10))
+    }
+    if(storedCount >= 2){
+setIsUploading(false)
     }
   }, [conversationId])
 
   // Update localStorage when upload count changes
   useEffect(() => {
-    localStorage.setItem(`uploadCount_${conversationId}`, uploadCount.toString())
+    localStorage.setItem(`uploadCount`, uploadCount.toString())
   }, [uploadCount, conversationId])
 
   const {
@@ -54,7 +57,7 @@ const SendMessage = () => {
 
   const handleUpload = (result: any) => {
     setIsUploading(true)
-
+if(uploadCount < 2){
     // Post the image to the API
     axios
       .post("/api/messages", {
@@ -67,16 +70,19 @@ const SendMessage = () => {
         setUploadCount(newCount)
 
         // Show download modal after 2 uploads
-        if (newCount >= 2) {
-          setShowDownloadModal(true)
-        }
+        // if (newCount >= 2) {
+        //   setShowDownloadModal(true)
+        // }
       })
       .catch((error) => {
         console.error("Error uploading image:", error)
       })
       .finally(() => {
-        setIsUploading(false)
+        
       })
+}else{
+setShowDownloadModal(true)
+}
   }
 
   // Check if uploads are disabled (2 or more successful uploads)
