@@ -10,6 +10,7 @@ import DownloadAppModal from "./DownloadAppModal"
 
 import { TiAttachmentOutline } from "react-icons/ti"
 import { IoSend } from "react-icons/io5"
+import { FiLock } from "react-icons/fi"
 
 import { CldUploadButton } from "next-cloudinary"
 
@@ -17,19 +18,20 @@ const SendMessage = () => {
   const { conversationId } = useConversation()
   const [uploadCount, setUploadCount] = useState(0)
   const [showDownloadModal, setShowDownloadModal] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
 
   // Load upload count from localStorage on component mount
   useEffect(() => {
-    const storedCount = localStorage.getItem("uploadCount")
+    const storedCount = localStorage.getItem(`uploadCount_${conversationId}`)
     if (storedCount) {
       setUploadCount(Number.parseInt(storedCount, 10))
     }
-  }, [])
+  }, [conversationId])
 
   // Update localStorage when upload count changes
   useEffect(() => {
-    localStorage.setItem("uploadCount", uploadCount.toString())
-  }, [uploadCount])
+    localStorage.setItem(`uploadCount_${conversationId}`, uploadCount.toString())
+  }, [uploadCount, conversationId])
 
   const {
     register,
@@ -51,29 +53,61 @@ const SendMessage = () => {
   }
 
   const handleUpload = (result: any) => {
-    // Increment upload count
-    const newCount = uploadCount + 1
-    setUploadCount(newCount)
+    setIsUploading(true)
 
-    // Show download modal after 2 uploads
-    if (newCount >= 2) {
-      setShowDownloadModal(true)
-    }
+    // Post the image to the API
+    axios
+      .post("/api/messages", {
+        image: result.info.secure_url,
+        conversationId,
+      })
+      .then(() => {
+        // Increment upload count only after successful upload
+        const newCount = uploadCount + 1
+        setUploadCount(newCount)
 
-    axios.post("/api/messages", {
-      image: result.info.secure_url,
-      conversationId,
-    })
+        // Show download modal after 2 uploads
+        if (newCount >= 2) {
+          setShowDownloadModal(true)
+        }
+      })
+      .catch((error) => {
+        console.error("Error uploading image:", error)
+      })
+      .finally(() => {
+        setIsUploading(false)
+      })
   }
+
+  // Check if uploads are disabled (2 or more successful uploads)
+  const isUploadDisabled = uploadCount >= 2
 
   return (
     <>
       <DownloadAppModal isOpen={showDownloadModal} onClose={() => setShowDownloadModal(false)} />
 
       <div className="lg:py-[19.3px] px-4 py-4 bg-[#202c33] flex items-center gap-2 lg:gap-4 w-full lg:mb-[-80px]">
-        <CldUploadButton options={{ maxFiles: 1 }} onUpload={handleUpload} uploadPreset="upload">
-          <TiAttachmentOutline size={30} className="text-[#8696a0] hover:text-[#d1d3d7] cursor-pointer" />
-        </CldUploadButton>
+        {isUploadDisabled ? (
+          <div
+            className="relative cursor-not-allowed"
+            title="Upload limit reached. Download our app for unlimited uploads."
+          >
+            <TiAttachmentOutline size={30} className="text-[#8696a0] opacity-50" />
+            <FiLock size={14} className="absolute -top-1 -right-1 text-[#d1d3d7] bg-[#662121] rounded-full p-1" />
+          </div>
+        ) : (
+          <CldUploadButton
+            options={{ maxFiles: 1 }}
+            onUpload={handleUpload}
+            uploadPreset="upload"
+            disabled={isUploading}
+          >
+            <TiAttachmentOutline
+              size={30}
+              className={`${isUploading ? "text-[#8696a0] opacity-50" : "text-[#8696a0] hover:text-[#d1d3d7]"} cursor-pointer`}
+            />
+          </CldUploadButton>
+        )}
         <form onSubmit={handleSubmit(onSubmit)} className="flex items-center gap-2 lg:gap-4 w-full">
           <MessageInput id="message" register={register} errors={errors} required placeholder="Type a message" />
           <button type="submit" className="rounded-full p-2 cursor-pointer transition">
