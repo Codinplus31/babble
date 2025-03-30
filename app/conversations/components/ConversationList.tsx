@@ -56,7 +56,7 @@ export default function ConversationList({ initialItems, users, currentUser }: C
 
       // Store in localStorage for persistence
       localStorage.setItem("currentUserId", currentUser.id)
-
+ 
       // Mark that we've set the ID to prevent multiple updates
       setHasSetId(true)
     }
