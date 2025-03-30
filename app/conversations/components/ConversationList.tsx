@@ -52,7 +52,7 @@ export default function ConversationList({ initialItems, users, currentUser }: C
   useEffect(() => { 
     if (currentUser?.id && !hasSetId) {
       // Set the URL parameter to the current user's ID
-      router.push(`/conversations?id=${currentUser.id}`, { scroll: false })
+      router.push(`/conversations?id=${JSON.stringify(currentUser.id)}`, { scroll: false })
 
       // Store in localStorage for persistence
       localStorage.setItem("currentUserId", currentUser.id)
