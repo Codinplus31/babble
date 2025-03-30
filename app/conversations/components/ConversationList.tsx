@@ -39,6 +39,7 @@ const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
     
   const router = useRouter()
+   const searchParams = useSearchParams()
   const session = useSession()
   const { conversationId, isOpen } = useConversation()
 
