@@ -49,7 +49,7 @@ export default function ConversationList({ initialItems, users, currentUser }: C
   const pusherKey = useMemo(() => session.data?.user?.email, [session.data?.user?.email])
 
   // Set the user ID in the URL when the component mounts
-  useEffect(() => {
+  useEffect(() => { 
     if (currentUser?.id && !hasSetId) {
       // Set the URL parameter to the current user's ID
       router.push(`/conversations?id=${currentUser.id}`, { scroll: false })
