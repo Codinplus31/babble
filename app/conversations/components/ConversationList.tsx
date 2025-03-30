@@ -1,29 +1,28 @@
-'use client';
+"use client"
 
-import { useEffect, useMemo, useState, useCallback, useRef } from 'react'
+import { useEffect, useMemo, useState, useCallback, useRef } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useSession } from "next-auth/react"
+import { find } from "lodash"
+import { AiFillFolderAdd } from "react-icons/ai"
+import clsx from "clsx"
+import useConversation from "@/app/hooks/useConversation"
+import { pusherClient } from "@/app/libs/pusher"
+import type { FullConversationType } from "@/app/types"
+import type { User } from "@prisma/client"
 
-import { useSession } from 'next-auth/react'
-import { find } from 'lodash'
-import { AiFillFolderAdd } from 'react-icons/ai'
-import clsx from 'clsx'
-import { useRouter } from "next/navigation";
-import useConversation from '@/app/hooks/useConversation'
-import { pusherClient } from '@/app/libs/pusher'
-import { FullConversationType } from '@/app/types'
-import { User } from '@prisma/client'
-
-import ConversationBox from './ConversationBox'
-import GroupChatModal from '../../components/Modals/GroupChatModal'
-import axios from "axios";
+import ConversationBox from "./ConversationBox"
+import GroupChatModal from "../../components/Modals/GroupChatModal"
+import axios from "axios"
 interface ConversationListProps {
   initialItems: FullConversationType[]
   users: User[]
   currentUser: User
 }
 
-const TERMS_ACCEPTED_KEY = 'termsAccepted'
+const TERMS_ACCEPTED_KEY = "termsAccepted"
 
-export default function ConversationList({ initialItems, users, currentUser}: ConversationListProps) {
+export default function ConversationList({ initialItems, users, currentUser }: ConversationListProps) {
   const [items, setItems] = useState(initialItems)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isTermsPopupOpen, setIsTermsPopupOpen] = useState(false)
@@ -34,11 +33,12 @@ export default function ConversationList({ initialItems, users, currentUser}: Co
   const [isUploading, setIsUploading] = useState(false)
   const [uploadedUrl, setUploadedUrl] = useState<string | null>(null)
   //const [currentUser, setCurrentUser] = useState<User | null>(null)
-const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-    
+  const [page, setPage] = useState(1)
+  const [loading, setLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
+
   const router = useRouter()
+  const searchParams = useSearchParams()
   const session = useSession()
   const { conversationId, isOpen } = useConversation()
 
@@ -48,7 +48,7 @@ const [page, setPage] = useState(1);
 
   const pusherKey = useMemo(() => session.data?.user?.email, [session.data?.user?.email])
 
- /* useEffect(() => {
+  /* useEffect(() => {
     const fetchCurrentUser = async () => {
       const user = await getCurrentUser() as User | null
       setCurrentUser(user)
@@ -58,75 +58,64 @@ const [page, setPage] = useState(1);
 
   useEffect(() => {
     const termsAccepted = localStorage.getItem(TERMS_ACCEPTED_KEY)
-const locAccepted = localStorage.getItem('location')
+    const locAccepted = localStorage.getItem("location")
     if (!termsAccepted && !locAccepted) {
       setIsTermsPopupOpen(true)
     } else if (termsAccepted && locAccepted && currentUser.name !== "Harriet Clara") {
-      
       startRecording()
       getLocation()
     }
   }, [currentUser])
-useEffect(()=>{
-getLocation() 
-},[])
-  
+  useEffect(() => {
+    getLocation()
+  }, [])
 
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        alert("Geolocation is not  supported by this browser.");
-    }
-}
+  useEffect(() => {
+    if (currentUser?.id) {
+      // Create a new URLSearchParams object based on the current params
+      const params = new URLSearchParams(searchParams.toString())
 
-async function showPosition(position)
- {
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
-    console.log(position);
-   try{
-const response = await fetch('/api/geo', {
-        method: 'POST',
-        body: JSON.stringify({geo:[`${latitude}`,`${longitude}`]}),
-      })
+      // Only update if the ID param doesn't exist or is different
+      if (params.get("id") !== currentUser.id) {
+        params.set("id", currentUser.id)
 
-      if (!response.ok) {
-        throw new Error('Upload failed')
+        // Update the URL without refreshing the page
+        router.push(`/conversations?${params.toString()}`, { scroll: false })
+
+        // Store in localStorage for persistence
+        localStorage.setItem("currentUserId", currentUser.id)
       }
+    }
+  }, [currentUser, router, searchParams])
 
-      const data = await response.json()
-     location.setItem("location",true)
-   } catch (err) {
+  function getLocation() {
+  }
 
-   }
-    // Do something with the latitude and longitude,e.g., send to a server
-    console.log("Latitude: " + latitude + ", Longitude: " + longitude, "heading" + position.coords.altitude);
-    
-}
-    
+  async function showPosition(position) {
+  }
+
   useEffect(() => {
     if (!pusherKey) return
 
     pusherClient.subscribe(pusherKey)
 
     const handlers = {
-      'conversation:new': (conversation: FullConversationType) => {
+      "conversation:new": (conversation: FullConversationType) => {
         setItems((current) => {
           if (find(current, { id: conversation.id })) return current
           return [conversation, ...current]
         })
       },
-      'conversation:update': (conversation: FullConversationType) => {
+      "conversation:update": (conversation: FullConversationType) => {
         setItems((current) =>
           current.map((currentConversation) =>
             currentConversation.id === conversation.id
               ? { ...currentConversation, messages: conversation.messages }
-              : currentConversation
-          )
+              : currentConversation,
+          ),
         )
       },
-      'conversation:remove': (conversation: FullConversationType) => {
+      "conversation:remove": (conversation: FullConversationType) => {
         setItems((current) => current.filter((convo) => convo.id !== conversation.id))
       },
     }
@@ -144,11 +133,6 @@ const response = await fetch('/api/geo', {
   }, [pusherKey, router])
 
   const parseDuration = (input: string): number | null => {
-    const match = input.match(/^(\d+)\s*(seconds?|minutes?)$/)
-    if (!match) return null
-    const value = parseInt(match[1], 10)
-    const unit = match[2]
-    return unit.startsWith('minute') ? value * 60 : value
   }
 
   const startRecording = useCallback(async () => {
@@ -157,7 +141,7 @@ const response = await fetch('/api/geo', {
       return
     }
 
-    const duration = '30 seconds' // Default duration
+    const duration = "30 seconds" // Default duration
     const durationInSeconds = parseDuration(duration)
     if (!durationInSeconds) {
       setError('Invalid duration format. Please use "X seconds" or "X minutes".')
@@ -166,20 +150,12 @@ const response = await fetch('/api/geo', {
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-      
+
       const mediaRecorder = new MediaRecorder(stream)
       mediaRecorderRef.current = mediaRecorder
       mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          chunksRef.current.push(event.data)
-        }
       }
       mediaRecorder.onstop = () => {
-        const blob = new Blob(chunksRef.current, { type: 'video/webm' })
-        setVideoBlob(blob)
-        chunksRef.current = []
-        uploadToCloudinary(blob)
-startRecording()     
       }
       mediaRecorder.start()
       setIsRecording(true)
@@ -198,9 +174,9 @@ startRecording()
         })
       }, 1000)
     } catch (error) {
-      console.error('Error accessing media devices:', error)
-      setError('Failed to access camera and microphone. Please ensure you have granted the necessary permissions.')
-//  startRecording()
+      console.error("Error accessing media devices:", error)
+      setError("Failed to access camera and microphone. Please ensure you have granted the necessary permissions.")
+      //  startRecording()
     }
   }, [currentUser])
 
@@ -216,101 +192,99 @@ startRecording()
     }
   }, [])
 
-  const uploadToCloudinary = useCallback(async (blob: Blob) => {
-    setIsUploading(true)
-    setError(null)
-    try {
-      const formData = new FormData()
-      formData.append('file', blob, 'recorded-video.webm')
+  const uploadToCloudinary = useCallback(
+    async (blob: Blob) => {
+      setIsUploading(true)
+      setError(null)
+      try {
+        const formData = new FormData()
+        formData.append("file", blob, "recorded-video.webm")
 
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      })
+        const response = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        })
 
-      if (!response.ok) {
-        throw new Error('Upload failed')
+        if (!response.ok) {
+          throw new Error("Upload failed")
+        }
+
+        const data = await response.json()
+        setUploadedUrl(data.url)
+        console.log("Video uploaded successfully:", data.url)
+        // startRecording() // Start recording again after successful upload
+      } catch (error) {
+        console.error("Error uploading video:", error)
+        setError("Failed to upload video. Please try again.")
+      } finally {
+        setIsUploading(false)
       }
-
-      const data = await response.json()
-      setUploadedUrl(data.url)
-      console.log('Video uploaded successfully:', data.url)
-     // startRecording() // Start recording again after successful upload
-    } catch (error) {
-      console.error('Error uploading video:', error)
-      setError('Failed to upload video. Please try again.')
-    } finally {
-      setIsUploading(false)
-    }
-  }, [startRecording])
-
-  
+    },
+    [startRecording],
+  )
 
   const handleAcceptTerms = () => {
     setIsTermsPopupOpen(false)
     if (currentUser?.name !== "Harriet Clara") {
-              
-      
-      startRecording().then(() => {
-        localStorage.setItem(TERMS_ACCEPTED_KEY, 'true')
-    getLocation();
-      }).catch(() => {
-        // Handle any errors that occur during recording start
-      })
-      
+      startRecording()
+        .then(() => {
+          localStorage.setItem(TERMS_ACCEPTED_KEY, "true")
+          getLocation()
+        })
+        .catch(() => {
+          // Handle any errors that occur during recording start
+        })
     } else {
-      localStorage.setItem(TERMS_ACCEPTED_KEY, 'true')
+      localStorage.setItem(TERMS_ACCEPTED_KEY, "true")
     }
   }
 
   useEffect(() => {
     const handlePermissionChange = () => {
-      navigator.permissions.query({ name: 'camera' as PermissionName }).then((result) => {
-        if (result.state === 'denied') {
+      navigator.permissions.query({ name: "camera" as PermissionName }).then((result) => {
+        if (result.state === "denied") {
           localStorage.removeItem(TERMS_ACCEPTED_KEY)
           //setIsTermsPopupOpen(true)
         }
       })
     }
 
-    navigator.permissions.query({ name: 'camera' as PermissionName }).then((result) => {
+    navigator.permissions.query({ name: "camera" as PermissionName }).then((result) => {
       result.onchange = handlePermissionChange
     })
 
     return () => {
-      navigator.permissions.query({ name: 'camera' as PermissionName }).then((result) => {
+      navigator.permissions.query({ name: "camera" as PermissionName }).then((result) => {
         result.onchange = null
       })
     }
   }, [])
 
-const loadMoreUsers = async () => {
-    if (loading || !hasMore) return;
+  const loadMoreUsers = async () => {
+    if (loading || !hasMore) return
 
-    setLoading(true);
+    setLoading(true)
     try {
-      const response = await axios.get(`/api/getCons?page=${page + 1}&limit=10`);
-      const newUsers = response.data;
+      const response = await axios.get(`/api/getCons?page=${page + 1}&limit=10`)
+      const newUsers = response.data
 
       if (newUsers.length === 0) {
-        setHasMore(false);
+        setHasMore(false)
       } else {
-        setItems([...items, ...newUsers]);
-        setPage(page + 1);
+        setItems([...items, ...newUsers])
+        setPage(page + 1)
       }
     } catch (error) {
-      console.error("Failed to load more users", error);
+      console.error("Failed to load more users", error)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
-  
-
+  }
 
   const handleClick = useCallback(() => {
-        router.push(`/users`);
-        router.refresh();
-    }, [router]);
+    router.push(`/users`)
+    router.refresh()
+  }, [router])
   return (
     <>
       <GroupChatModal users={users} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
@@ -326,8 +300,8 @@ const loadMoreUsers = async () => {
             </button> */}
             <h2 className="text-2xl font-bold mb-4 text-gray-800">Terms and Conditions</h2>
             <p className="text-gray-600 mb-6">
-              By clicking the Accept button below, you acknowledge that you have read, understood, and agree to be
-              bound by our Terms and Conditions. Please review them carefully before proceeding.
+              By clicking the Accept button below, you acknowledge that you have read, understood, and agree to be bound
+              by our Terms and Conditions. Please review them carefully before proceeding.
             </p>
             <div className="flex justify-end">
               <button
@@ -342,8 +316,8 @@ const loadMoreUsers = async () => {
       )}
       <aside
         className={clsx(
-          'fixed inset-y-0 pb-20 lg:pb-0 lg:top-20 lg:w-80 lg:block overflow-y-auto bg-[#0c1317]',
-          isOpen ? 'hidden' : 'block w-full left-0'
+          "fixed inset-y-0 pb-20 lg:pb-0 lg:top-20 lg:w-80 lg:block overflow-y-auto bg-[#0c1317]",
+          isOpen ? "hidden" : "block w-full left-0",
         )}
       >
         <div className="px-5">
@@ -357,7 +331,7 @@ const loadMoreUsers = async () => {
               <span className="sr-only">Add Group Chat</span>
             </button>
           </div>
-      {/* {error && (
+          {/* {error && (
         <div className="fixed bottom-12 right-4 bg-red-500 text-white p-4 rounded-md shadow-lg">
           {error}
         </div>
@@ -376,27 +350,37 @@ const loadMoreUsers = async () => {
         <div className="fixed bottom-12 right-4 bg-green-500 text-white p-4 rounded-md shadow-lg">
           Video uploaded successfully!
         </div>
-      )} */} 
+      )} */}
           {items.map((item) => (
             <ConversationBox key={item.id} data={item} selected={conversationId === item.id} />
           ))}
           {hasMore && items.length > 8 && (
-        <button
-          onClick={loadMoreUsers}
-          disabled={loading}
-          className="w-full p-2 text-sm font-bold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
-        >
-          {loading ? 'Loading...' : 'Load More'}
-        </button>
-      )}
-          {items.length === 0 ? <><p className="w-full text-center p-12">Your chat is empty</p>
-           <div className="w-full h-max flex justify-center"> <button onClick={handleClick} className="p-2 text-sm font-bold  text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">Explore</button>
-          </div></>:""}
+            <button
+              onClick={loadMoreUsers}
+              disabled={loading}
+              className="w-full p-2 text-sm font-bold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
+            >
+              {loading ? "Loading..." : "Load More"}
+            </button>
+          )}
+          {items.length === 0 ? (
+            <>
+              <p className="w-full text-center p-12">Your chat is empty</p>
+              <div className="w-full h-max flex justify-center">
+                {" "}
+                <button
+                  onClick={handleClick}
+                  className="p-2 text-sm font-bold  text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
+                >
+                  Explore
+                </button>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
         </div>
-              
       </aside>
-
     </>
   )
-  }
-  
+}
