@@ -71,7 +71,7 @@ useEffect(()=>{
 getLocation() 
 },[])
   
-
+console.log(currentUser,'users')
 function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
