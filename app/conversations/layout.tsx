@@ -11,6 +11,7 @@ export default async function ConversationsLayout({
 }) {
     const conversations = await getConversations();
     const users = await getUsers();
+    console.log(users)
     const currentUser = await getCurrentUser();
     return (
         <Sidebar>
