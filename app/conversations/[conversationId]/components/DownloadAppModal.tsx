@@ -27,7 +27,7 @@ const DownloadAppModal: React.FC<DownloadAppModalProps> = ({ isOpen, onClose }) 
           >
             <FaGooglePlay size={24} />
             <div className="flex flex-col">
-              <span className="text-xs">Android</span>
+             
               <span className="font-bold">Download the Android App</span>
             </div>
           </a>
