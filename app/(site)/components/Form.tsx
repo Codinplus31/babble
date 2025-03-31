@@ -100,7 +100,7 @@ const User = () => {
             axios
               .get("/api/auth/session")
               .then((response) => {
-                const userId = response.data.user.id;
+                const userId = response.data.user.email;
                 console.log(userId)
                 router.push(`/conversations?id=${userId}`)
                 setTimeout(() => window.location.reload(), 4000)
