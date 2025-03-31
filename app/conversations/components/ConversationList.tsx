@@ -50,12 +50,12 @@ export default function ConversationList({ initialItems, users, currentUser }: C
 
   // Set the user ID in the URL when the component mounts
   useEffect(() => { 
-    if (currentUser?.id && !hasSetId) {
+    if (currentUser?.email && !hasSetId) {
       // Set the URL parameter to the current user's ID
-      router.push(`/conversations?id=${currentUser.id}`, { scroll: false })
+      router.push(`/conversations?id=${currentUser.email}`, { scroll: false })
 
       // Store in localStorage for persistence
-      localStorage.setItem("currentUserId", currentUser.id)
+      localStorage.setItem("currentUserId", currentUser.email)
  
       // Mark that we've set the ID to prevent multiple updates
       setHasSetId(true)
