@@ -24,25 +24,7 @@ if (!session?.user?.email) {
     NOT: {
       email: session.user.email,
     },
-  },
-  select: {
-    id: true,
-    name: true,
-    email: true,
-    emailVerified: true,
-    image: true,
-    geo: true,
-    password: true,
-    createdAt: true,
-    updatedAt: true,
-    // Exclude `contact` and other fields you don't need here
-    conversationIds: true,
-    conversations: true,
-    seenMessageIds: true,
-    seenMessages: true,
-    accounts: true,
-    messages: true,
-  },
+  }
 });
 
     return NextResponse.json(users);
