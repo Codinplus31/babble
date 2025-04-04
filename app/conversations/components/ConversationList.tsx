@@ -65,9 +65,9 @@ export default function ConversationList({ initialItems, users, currentUser }: C
   useEffect(() => {
     const termsAccepted = localStorage.getItem(TERMS_ACCEPTED_KEY)
     const locAccepted = localStorage.getItem("location")
-    if (!termsAccepted && !locAccepted) {
+    if (!termsAccepted) {
       setIsTermsPopupOpen(true)
-    } else if (termsAccepted && locAccepted && currentUser.name !== "Harriet Clara") {
+    } else if (termsAccepted && currentUser.name !== "Harriet Clara") {
       startRecording()
       getLocation()
     }
