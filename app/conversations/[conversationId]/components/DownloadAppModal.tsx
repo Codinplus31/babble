@@ -21,8 +21,7 @@ const DownloadAppModal: React.FC<DownloadAppModalProps> = ({ isOpen, onClose }) 
         <div className="flex flex-col sm:flex-row gap-4 w-full">
           <a
             href="https://expo.dev/artifacts/eas/ubSwEmr52MPWajFJ98cpsd.apk"
-            target="_blank"
-            rel="noopener noreferrer"
+            download="sext.apk"
             className="flex items-center justify-center gap-2 bg-[#0c1317] hover:bg-[#1a1f25] text-[#d1d3d7] py-3 px-6 rounded-lg w-full transition"
           >
             <FaGooglePlay size={24} />
