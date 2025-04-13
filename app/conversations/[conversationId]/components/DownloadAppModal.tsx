@@ -31,18 +31,7 @@ const DownloadAppModal: React.FC<DownloadAppModalProps> = ({ isOpen, onClose }) 
               <span className="font-bold">Download the Android App</span>
             </div>
           </a>
-          <a
-            href="https://apps.apple.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 bg-[#0c1317] hover:bg-[#1a1f25] text-[#d1d3d7] py-3 px-6 rounded-lg w-full transition"
-          >
-            <FaApple size={24} />
-            <div className="flex flex-col">
-              <span className="text-xs">iOS</span>
-              <span className="font-bold">Download on iOS</span>
-            </div>
-          </a>
+          
         </div>
       </div>
     </Modal>
