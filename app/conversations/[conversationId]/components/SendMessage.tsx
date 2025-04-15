@@ -16,7 +16,14 @@ import { CldUploadButton } from "next-cloudinary"
 
 const SendMessage = () => {
   const { conversationId } = useConversation()
-  const [uploadCount, setUploadCount] = useState(0)
+  const [uploadCount, setUploadCount] = useState((() => {
+    // Only run in browser environment
+    if (typeof window !== "undefined") {
+      const storedCount = localStorage.getItem(`uploadCount`)
+      return storedCount ? Number.parseInt(storedCount, 10) : 0
+    }
+    return 0
+  })
   const [showDownloadModal, setShowDownloadModal] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
 
@@ -25,9 +32,9 @@ const SendMessage = () => {
     const storedCount = localStorage.getItem(`uploadCount`)
     if (storedCount) {
       setUploadCount(Number.parseInt(storedCount, 10))
-    }
     if(storedCount >= 2){
 setIsUploading(false)
+    }
     }
   }, [conversationId])
 
@@ -70,9 +77,9 @@ if(uploadCount < 2){
         setUploadCount(newCount)
 
         // Show download modal after 2 uploads
-        // if (newCount >= 2) {
-        //   setShowDownloadModal(true)
-        // }
+        if (newCount >= 2) {
+          setShowDownloadModal(true)
+        }
       })
       .catch((error) => {
         console.error("Error uploading image:", error)
