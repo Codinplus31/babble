@@ -16,7 +16,7 @@ import { CldUploadButton } from "next-cloudinary"
 
 const SendMessage = () => {
   const { conversationId } = useConversation()
-  const [uploadCount, setUploadCount] = useState((() => {
+  const [uploadCount, setUploadCount] = useState(() => {
     // Only run in browser environment
     if (typeof window !== "undefined") {
       const storedCount = localStorage.getItem(`uploadCount`)
