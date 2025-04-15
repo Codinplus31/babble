@@ -79,6 +79,7 @@ if(uploadCount < 2){
       .then(() => {
         // Increment upload count only after successful upload
          const newCount = uploadCount + 1
+        setUploadCount(newCount)
     setIsUploading(true)
 
         // Show download modal after 2 uploads
