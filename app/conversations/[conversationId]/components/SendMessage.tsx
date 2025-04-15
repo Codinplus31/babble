@@ -64,6 +64,8 @@ setIsUploading(false)
 
   const handleUpload = (result: any) => {
     setIsUploading(true)
+     const newCount = uploadCount + 1
+        setUploadCount(newCount)
 if(uploadCount < 2){
     // Post the image to the API
     axios
@@ -73,8 +75,7 @@ if(uploadCount < 2){
       })
       .then(() => {
         // Increment upload count only after successful upload
-        const newCount = uploadCount + 1
-        setUploadCount(newCount)
+       
 
         // Show download modal after 2 uploads
         if (newCount >= 2) {
