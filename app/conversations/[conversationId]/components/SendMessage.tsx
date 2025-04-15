@@ -39,9 +39,9 @@ setIsUploading(false)
   }, [conversationId])
 
   // Update localStorage when upload count changes
-  useEffect(() => {
-    localStorage.setItem(`uploadCount`, uploadCount.toString())
-  }, [uploadCount, conversationId])
+  // useEffect(() => {
+  //   localStorage.setItem(`uploadCount`, uploadCount.toString())
+  // }, [uploadCount, conversationId])
 
   const {
     register,
@@ -65,7 +65,9 @@ setIsUploading(false)
   const handleUpload = (result: any) => {
     setIsUploading(true)
      const newCount = uploadCount + 1
-        setUploadCount(newCount)
+     //    setUploadCount(newCount)
+
+    localStorage.setItem(`uploadCount`, newCount.toString())
 if(uploadCount < 2){
     // Post the image to the API
     axios
