@@ -31,8 +31,9 @@ const SendMessage = () => {
   useEffect(() => {
     const storedCount = localStorage.getItem(`uploadCount`)
     if (storedCount) {
+      let count = Number.parseInt(storedCount, 10)
       setUploadCount(Number.parseInt(storedCount, 10))
-    if(storedCount >= 2){
+    if(count >= 2){
 setIsUploading(false)
     }
     }
