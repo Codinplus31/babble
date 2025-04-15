@@ -22,7 +22,7 @@ const SendMessage = () => {
     if (typeof storedCount === "undefined" || storedCount === null) {
       return  0
     }
-    return storedCount 
+    return Number.parseInt(storedCount, 10)
   })
   const [showDownloadModal, setShowDownloadModal] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
