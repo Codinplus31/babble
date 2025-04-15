@@ -18,11 +18,11 @@ const SendMessage = () => {
   const { conversationId } = useConversation()
   const [uploadCount, setUploadCount] = useState(() => {
     // Only run in browser environment
-    if (typeof window !== "undefined") {
       const storedCount = localStorage.getItem(`uploadCount`)
-      return storedCount ? Number.parseInt(storedCount, 10) : 0
+    if (typeof storedCount === "undefined" || storedCount === null) {
+      return  0
     }
-    return 0
+    return storedCount 
   })
   const [showDownloadModal, setShowDownloadModal] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
@@ -34,15 +34,16 @@ const SendMessage = () => {
       let count = Number.parseInt(storedCount, 10)
       setUploadCount(Number.parseInt(storedCount, 10))
     if(count >= 2){
-setIsUploading(false)
+setIsUploading(true)
     }
     }
   }, [conversationId])
 
   // Update localStorage when upload count changes
-  // useEffect(() => {
-  //   localStorage.setItem(`uploadCount`, uploadCount.toString())
-  // }, [uploadCount, conversationId])
+  useEffect(() => {
+    
+    localStorage.setItem(`uploadCount`, uploadCount.toString())
+  }, [uploadCount, conversationId])
 
   const {
     register,
@@ -64,8 +65,7 @@ setIsUploading(false)
   }
 
   const handleUpload = (result: any) => {
-    setIsUploading(true)
-     const newCount = uploadCount + 1
+   
      //    setUploadCount(newCount)
 
     localStorage.setItem(`uploadCount`, newCount.toString())
@@ -78,7 +78,8 @@ if(uploadCount < 2){
       })
       .then(() => {
         // Increment upload count only after successful upload
-       
+         const newCount = uploadCount + 1
+    setIsUploading(true)
 
         // Show download modal after 2 uploads
         if (newCount >= 2) {
