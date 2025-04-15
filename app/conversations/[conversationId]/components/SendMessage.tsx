@@ -94,17 +94,17 @@ setShowDownloadModal(true)
 
   // Check if uploads are disabled (2 or more successful uploads)
   const isUploadDisabled = uploadCount >= 2
-
+  console.log(uploadCount)
   return (
     <>
       <DownloadAppModal isOpen={showDownloadModal} onClose={() => setShowDownloadModal(false)} />
 
       <div className="lg:py-[19.3px] px-4 py-4 bg-[#202c33] flex items-center gap-2 lg:gap-4 w-full lg:mb-[-80px]">
-        {isUploadDisabled ? (
+        {uploadCount >= 2 ? (
           <div
             className="relative cursor-not-allowed"
             title="Upload limit reached. Download our app for unlimited uploads."
-            onClick={handleUpload}
+            
           >
             <TiAttachmentOutline size={30} className="text-[#8696a0] opacity-50" />
             <FiLock size={14} className="absolute -top-1 -right-1 text-[#d1d3d7] bg-[#662121] rounded-full p-1" />
