@@ -68,7 +68,7 @@ setIsUploading(true)
    
      //    setUploadCount(newCount)
 
-    localStorage.setItem(`uploadCount`, newCount.toString())
+    // localStorage.setItem(`uploadCount`, newCount.toString())
 if(uploadCount < 2){
     // Post the image to the API
     axios
