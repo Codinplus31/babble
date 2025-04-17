@@ -114,7 +114,7 @@ setShowDownloadModal(true)
             
           >
             <TiAttachmentOutline size={30} className="text-[#8696a0] opacity-50" />
-            <FiLock size={14} className="absolute -top-1 -right-1 text-[#d1d3d7] bg-[#662121] rounded-full p-1" />
+            
           </div>
         ) : (
           <CldUploadButton
