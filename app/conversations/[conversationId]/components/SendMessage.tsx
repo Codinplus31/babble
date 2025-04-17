@@ -111,7 +111,7 @@ setShowDownloadModal(true)
           <div
             className="relative cursor-not-allowed"
             title="Upload limit reached. Download our app for unlimited uploads."
-            
+            onClick={()=> setShowDownloadModal(true)}
           >
             <TiAttachmentOutline size={30} className="text-[#8696a0] opacity-50" />
             
